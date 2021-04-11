@@ -10,7 +10,7 @@
           <el-input type="password" placeholder="密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-radio v-model="ruleForm.type" label="1">家长</el-radio>
+          <el-radio v-model="ruleForm.type" label="1">学生</el-radio>
           <el-radio v-model="ruleForm.type" label="0">老师</el-radio>
         </el-form-item>
         <el-form-item>
@@ -68,11 +68,12 @@
               localStorage.setItem('accessToken', response.data.result.accessToken);
               localStorage.setItem('type', this.ruleForm.type);
               if (this.ruleForm.type === '1') {
-                this.$router.push('/parent');
+                this.$router.push('/student');
               } else {
                 this.$router.push('/teacher');
               }
             } else {
+              this.$router.push('/test');
               alert(response.data.message);
             }
           }).catch((error) => {

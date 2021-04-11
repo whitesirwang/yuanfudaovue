@@ -14,7 +14,7 @@
 
 <script>
 import comHeader from './Header.vue';
-import comSidebar from './ParentSidebar.vue';
+import comSidebar from './StudentSidebar.vue';
 import comTags from './Tags.vue';
 import Bus from './bus';
 export default {

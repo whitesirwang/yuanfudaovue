@@ -7,11 +7,17 @@ import '@/assets/css/variable.less';
 import '@/assets/css/theme/459f75/index.css';
 // import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios';
+import 'bootstrap';
+import $ from 'jquery';
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI, {size: 'medium'});
 Vue.prototype.$axios = axios; // axios不能使用use
 Vue.prototype.HOME = '/api'
+import VideoPlayer from 'vue-video-player'
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+Vue.use(VideoPlayer)
 //使用router.beforeEach注册一个全局前置守卫，对路由进行权限跳转
 router.beforeEach((to, from, next) => {
   // 未匹配到路由时 跳转到error页面

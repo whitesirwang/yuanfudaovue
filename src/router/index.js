@@ -35,10 +35,10 @@ export default new Router({
       ]
     },
     {
-      path: '/parent',
-      component: () => import('../components/common/ParentBase.vue'),
+      path: '/student',
+      component: () => import('../components/common/StudentBase.vue'),
       meta: {
-        title: '家长公共部分'
+        title: '学生公共部分'
       },
       children: [
         {
@@ -57,10 +57,18 @@ export default new Router({
         },
         {
           path: '/pmail',
-          name: '家长邮件',
+          name: '学生邮件',
           component: () => import('../components/page/Mail.vue'),
           meta: {
-            title: '家长邮件'
+            title: '学生邮件'
+          }
+        },
+        {
+          path: '/courses',
+          name: '课程总览',
+          component: () => import('../components/page/course/courses.vue'),
+          meta: {
+            title: '课程总览'
           }
         }
       ]
@@ -76,6 +84,10 @@ export default new Router({
     {
       path: '/404',
       component: () => import('../components/page/err/404.vue')
+    },
+    {
+      path: '/test',
+      component: () => import('../components/page/test.vue')
     }
   ]
 })

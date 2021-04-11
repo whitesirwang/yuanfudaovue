@@ -27,7 +27,7 @@
 <script>
   import Bus from "./bus";
   export default {
-    name: "ParentSidebar",
+    name: "StudentSidebar",
     data() {
       return {
         isCollapse: false,
@@ -36,6 +36,11 @@
             title: '教师总览',
             path: '/teachers',
             icon: 'el-icon-zoom-in'
+          },
+          {
+            title: '课程总览',
+            path: '/courses',
+            icon: 'el-icon-message'
           },
           {
             title: '邮件',
