@@ -21,24 +21,27 @@
           <el-form-item label="评分">
             {{form.score}}
           </el-form-item>
+          <el-form-item label="头像上传">
+            <el-upload
+              class="upload-demo"
+              :action="upload.url"
+              :file-list="upload.fileList"
+              :on-success="handleSuccess"
+              :limit="1">
+              <el-button size="small" type="primary">上传文件</el-button>
+              <div slot="tip" class="el-upload__tip">(提示）只能上传jpg/png文件</div>
+            </el-upload>
+          </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="updateUser">提交修改</el-button>
           </el-form-item>
         </el-form>
       </el-col>
       <el-col span="12">
-        <el-upload
-          style="display: inline"
-          :show-file-list="false"
-          :on-success="onSuccess"
-          :on-error="onError"
-          :before-upload="beforeUpload"
-          :action=upload.url>
-          <el-button size="mini" type="success">上传</el-button>
-        </el-upload>
-        <img :src="img.url">
+        <el-image :src="img.url" style="width: 50%; height: 50%"></el-image>
       </el-col>
     </el-row>
+
   </el-card>
 </template>
 
@@ -48,7 +51,8 @@ export default {
   data() {
     return {
       upload : {
-        url : this.HOME + "/uploadAvator",
+        url : this.HOME + "/upload",
+        fileList :[]
       },
       img : {
         url : '',
@@ -59,7 +63,8 @@ export default {
         email: '',
         score: '',
         age: '',
-        gender: ''
+        gender: '',
+        avatorname: ''
       }
     }
   },
@@ -74,6 +79,7 @@ export default {
       }).then((response) =>{
         if (response.data.status === 200) {
           this.form = response.data.result;
+          this.img.url = 'http://localhost:8004/vedios/' + response.data.result.avatorname;
         } else {
           alert(response.data.message);
         }
@@ -81,40 +87,32 @@ export default {
         console.log(error)
       });
     },
+    handleSuccess(response, file, fileList) {
+        if (response.status === 200) {
+          this.img.url = 'http://localhost:8004/vedios/' + response.result.name;
+          this.form.avatorname = response.result.name;
+          this.updateUser();
+        } else {
+          alert(response.data.message);
+        }
+    },
     updateUser() {
       this.$axios({
         method: 'put',
-        url:this.HOME + '/teacher',
-        data:JSON.stringify({
-          introduction: this.form.introduction
-        }),
+        url:this.HOME + '/teacher/update',
+        data:JSON.stringify(this.form),
         headers: {
           'Content-Type': 'application/json'
         }
       }).then((response) =>{
         if (response.data.status === 200) {
-
+          alert("上传成功");
         } else {
           alert(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
       });
-    },
-    onSuccess(response, file, fileList) {
-      this.enabledUploadBtn = true;
-      this.uploadBtnIcon = 'el-icon-upload2';
-      this.btnText = '数据导入';
-    },
-    onError(err, file, fileList) {
-      this.enabledUploadBtn = true;
-      this.uploadBtnIcon = 'el-icon-upload2';
-      this.btnText = '数据导入';
-    },
-    beforeUpload(file) {
-      this.enabledUploadBtn = false;
-      this.uploadBtnIcon = 'el-icon-loading';
-      this.btnText = '正在导入';
     }
   }
 }

@@ -33,6 +33,11 @@ export default {
       isCollapse: false,
       items: [
         {
+          title: '我的课程',
+          path: '/tmail',
+          icon: 'el-icon-message'
+        },
+        {
           title: '邮件',
           path: '/tmail',
           icon: 'el-icon-message'

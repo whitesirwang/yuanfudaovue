@@ -23,12 +23,6 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <div>
-      <h2>发表评论</h2>
-      <textarea></textarea><br>
-      <el-button>发布</el-button>
-    </div>
-
   </div>
 
 </template>
@@ -40,6 +34,9 @@ export default {
   name: "TeacherDetailInfo",
   data() {
     return {
+      img: {
+        url : ''
+      },
       form: {
         introduction:'',
         name: '',
@@ -47,29 +44,7 @@ export default {
         score: null,
         age: null,
         gender: ""
-      },
-      comment: [
-        {
-          name: "wang",
-          detail: "11111",
-          time: "1111"
-        },
-        {
-          name: "wang1",
-          detail: "222",
-          time: "223131231"
-        },
-        {
-          name: "wang",
-          detail: "11111",
-          time: "1111"
-        },
-        {
-          name: "wang1",
-          detail: "222",
-          time: "223131231"
-        }
-      ]
+      }
     }
   },
   created() {
@@ -79,7 +54,7 @@ export default {
     getUser() {
       this.$axios({
         method:'get',
-        url:this.HOME + '/teacher/' + this.$route.params.username
+        url:this.HOME + '/teacher/' + localStorage.getItem("teacherUserName")
       }).then((response) =>{
         if (response.data.status === 200) {
           this.form = response.data.result;
@@ -92,7 +67,11 @@ export default {
     }
   },
   watch: {
-    "$route": "getUser"
+    $route(to, from) {
+      if (to.path === "/teacherDetailInfo") {
+        this.getUser();
+      }
+    }
   }
 }
 </script>

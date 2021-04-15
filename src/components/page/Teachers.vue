@@ -5,12 +5,12 @@
         @current-change="handleCurrentChange"
         :current-page.sync="comp.current"
         layout="total, prev, pager, next"
-        :page-size="10"
+        :page-size="5"
         :total="comp.total"
         style="margin-bottom: 0">
       </el-pagination>
-      <el-input placeholder="请输入内容" v-model="search" style="width: 30%">
-        <el-button slot="append" icon="el-icon-search"></el-button>
+      <el-input placeholder="搜索教师名称" v-model="search" style="width: 30%">
+        <el-button slot="append" icon="el-icon-search" @click="getUsers(1,5, search)"></el-button>
       </el-input>
     </div>
     <div>
@@ -28,8 +28,8 @@
                 <el-form-item label="评分" style="font-size: 20px">
                   {{o.score}}
                 </el-form-item>
-                <el-form-item label="邮箱" style="font-size: 20px">
-                  {{o.email}}
+                <el-form-item label="年龄" style="font-size: 20px">
+                  {{o.age}}
                 </el-form-item>
               </el-form>
           </el-card>
@@ -53,19 +53,21 @@ export default {
     };
   },
   created() {
-    this.getUsers(1, 10);
+    this.getUsers(1, 5);
   },
   methods: {
     getTeacherDetails(row) {
-      this.$router.push('/teacherDetailInfo/' + row.username);
+      localStorage.setItem("teacherUserName", row.username);
+      this.$router.push('/teacherDetailInfo');
     },
-    getUsers(cur, siz) {
+    getUsers(cur, siz, search='') {
       this.$axios({
         method: 'get',
         url: this.HOME + '/teachers',
         params: {
           current: cur,
-          size: siz
+          size: siz,
+          name: search
         }
       }).then((response) => {
         if (response.data.status === 200) {
@@ -81,11 +83,16 @@ export default {
       });
     },
     handleCurrentChange(val) {
-      this.getUsers(val, 10);
+      this.getUsers(val, 5);
     }
   }
 }
 </script>
 
-<style>
+<style scoped lang="less">
+.header-portrait {
+.circle(40px);
+  margin: 0 20px;
+  vertical-align: middle;
+}
 </style>

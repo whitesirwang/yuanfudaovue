@@ -49,7 +49,7 @@ export default new Router({
           }
         },
         {
-          path: '/teacherDetailInfo/:username',
+          path: '/teacherDetailInfo',
           component: () => import('../components/page/teacher/TeacherInfo.vue'),
           meta: {
             title: '教师详细信息'

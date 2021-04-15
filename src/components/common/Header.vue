@@ -17,8 +17,8 @@
         </el-tooltip>
         <span class="btn-info-tip" v-if="message"></span>
       </div>
-      <!-- 用户头像 -->
-      <img class="header-portrait" src="static/portrait.jpg" alt="用户头像">
+<!--      &lt;!&ndash; 用户头像 &ndash;&gt;-->
+<!--      <img class="header-portrait" src="static/portrait.jpg" alt="用户头像">-->
       <!-- 用户名下拉菜单 -->
       <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">

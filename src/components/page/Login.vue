@@ -72,9 +72,6 @@
               } else {
                 this.$router.push('/teacher');
               }
-            } else {
-              this.$router.push('/test');
-              alert(response.data.message);
             }
           }).catch((error) => {
             console.log(error)

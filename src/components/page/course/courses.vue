@@ -9,7 +9,15 @@
 
 <script>
 export default {
-  name: "courses"
+  name: "courses",
+  data() {
+    return {
+
+    }
+  },
+  methods: {
+
+  }
 }
 </script>
 
