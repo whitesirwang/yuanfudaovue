@@ -7,7 +7,7 @@ export default {
   name: "StudentCourse",
   data() {
     return {
-      
+
     }
   },
   created() {
