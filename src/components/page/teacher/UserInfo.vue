@@ -38,7 +38,7 @@
         </el-form>
       </el-col>
       <el-col span="12">
-        <el-image :src="img.url" style="width: 50%; height: 50%"></el-image>
+        <img :src="img.url" width="100%" height="500">
       </el-col>
     </el-row>
 
@@ -75,7 +75,10 @@ export default {
     getUser() {
       this.$axios({
         method:'get',
-        url:this.HOME + '/teacher/' + localStorage.getItem("username")
+        url:this.HOME + '/teacher/' + localStorage.getItem("username"),
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+        }
       }).then((response) =>{
         if (response.data.status === 200) {
           this.form = response.data.result;
@@ -102,6 +105,7 @@ export default {
         url:this.HOME + '/teacher/update',
         data:JSON.stringify(this.form),
         headers: {
+          'accessToken': localStorage.getItem("accessToken"),
           'Content-Type': 'application/json'
         }
       }).then((response) =>{

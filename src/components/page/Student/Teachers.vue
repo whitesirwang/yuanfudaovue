@@ -57,8 +57,7 @@ export default {
   },
   methods: {
     getTeacherDetails(row) {
-      localStorage.setItem("teacherUserName", row.username);
-      this.$router.push('/teacherDetailInfo');
+      this.$router.push('/teacherDetailInfo/' + row.username);
     },
     getUsers(cur, siz, search='') {
       this.$axios({
@@ -68,6 +67,9 @@ export default {
           current: cur,
           size: siz,
           name: search
+        },
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
         }
       }).then((response) => {
         if (response.data.status === 200) {

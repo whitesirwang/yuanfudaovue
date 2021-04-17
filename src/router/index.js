@@ -31,6 +31,22 @@ export default new Router({
           meta: {
             title: '教师个人信息'
           }
+        },
+        {
+          path: '/addcourse',
+          name: '开课',
+          component: () => import('../components/page/teacher/addCourse.vue'),
+          meta: {
+            title: '开课'
+          }
+        },
+        {
+          path: '/teacherCourses',
+          name: '我开的课',
+          component: () => import('../components/page/teacher/teacherCourses.vue'),
+          meta: {
+            title: '我开的课'
+          }
         }
       ]
     },
@@ -43,14 +59,14 @@ export default new Router({
       children: [
         {
           path: '/teachers',
-          component: () => import('../components/page/Teachers.vue'),
+          component: () => import('../components/page/Student/Teachers.vue'),
           meta: {
             title: '教师'
           }
         },
         {
-          path: '/teacherDetailInfo',
-          component: () => import('../components/page/teacher/TeacherInfo.vue'),
+          path: '/teacherDetailInfo/:username',
+          component: () => import('../components/page/Student/TeacherInfo.vue'),
           meta: {
             title: '教师详细信息'
           }
@@ -69,6 +85,14 @@ export default new Router({
           component: () => import('../components/page/course/courses.vue'),
           meta: {
             title: '课程总览'
+          }
+        },
+        {
+          path: "/scourse/:id",
+          name: '学生课程信息',
+          component: () => import('../components/page/Student/Course'),
+          meta: {
+            title: '课程信息'
           }
         }
       ]
