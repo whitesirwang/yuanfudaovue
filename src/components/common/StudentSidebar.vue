@@ -43,6 +43,11 @@
             icon: 'el-icon-message'
           },
           {
+            title: '我购买的课程',
+            path: '',
+            icon: 'el-icon-message'
+          },
+          {
             title: '邮件',
             path: '/pmail',
             icon: 'el-icon-message'

@@ -14,6 +14,7 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI, {size: 'medium'});
 Vue.prototype.$axios = axios; // axios不能使用use
 Vue.prototype.HOME = '/api'
+Vue.prototype.DHOME = '/dapi'
 import VideoPlayer from 'vue-video-player'
 require('video.js/dist/video-js.css')
 require('vue-video-player/src/custom-theme.css')

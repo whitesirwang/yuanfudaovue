@@ -10,7 +10,7 @@
           {{form.course.type}}
         </el-form-item>
         <el-form-item label="课程简介">
-         {{form.course.introduction}}
+          {{form.course.introduction}}
         </el-form-item>
         <el-form-item label="讲课老师">
           {{form.teacher.name}}
@@ -21,7 +21,8 @@
         <el-form-item label="评分">
           {{form.course.score}}
         </el-form-item>
-        <el-button type="primary" @click="selectCourse">我要选此课程</el-button>
+        <el-button type="primary" @click="selectCourse">更改信息</el-button>
+        <el-button type="primary" @click="addCourseDetail">添加课时</el-button>
       </el-form>
     </el-card>
     <el-table
@@ -37,13 +38,13 @@
         label="课时名">
       </el-table-column>
       <el-table-column
-      label="更新时间"
-      prop="date">
+        label="更新时间"
+        prop="date">
       </el-table-column>
       <el-table-column
         label="操作">
         <template slot-scope="scope">
-          <el-button @click="seeCourseDetail(scope.row)" type="text" size="medium">查看详情</el-button>
+          <el-button @click="editCourseDetail(scope.row)" type="text" size="medium">编辑课时</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -52,7 +53,7 @@
 
 <script>
 export default {
-  name: "StudentCourse",
+  name: "EditCourse",
   data() {
     return {
       form: {
@@ -99,47 +100,19 @@ export default {
           alert(response.data.message);
         }
       }).catch((error) => {
-        console.log(error)
+        console.log(error);
       });
     },
-    seeCourseDetail(row) {
-      this.$router.push("/scourseDetail/"+row.id);
+    addCourseDetail() {
+      this.$router.push("/addcoursedetail/" + this.form.course.id);
     },
-    selectCourse() {
-      this.$confirm('是否要选课?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$axios({
-          method:'post',
-          url:this.HOME + '/course/selectCourse',
-          data : JSON.stringify({
-            username : localStorage.getItem("username"),
-            cid: this.form.course.id
-          }),
-          headers: {
-            'accessToken': localStorage.getItem("accessToken"),
-            'Content-Type': 'application/json'
-          }
-        }).then((response) =>{
-          if (response.data.status === 200) {
-            this.$message({
-              type: 'success',
-              message: '选课成功!'
-            });
-          } else {
-            this.$message.error(response.data.message);
-          }
-        }).catch((error) => {
-          console.log(error)
-        });
-      });
+    editCourseDetail(row) {
+      this.$router.push("/editcoursedetail/" + row.id);
     }
   },
   watch: {
     $route(to, from) {
-      var pat = /^\/scourse\/.*$/;
+      var pat = /^\/editcourse\/.*$/;
       if (pat.test(to.path)) {
         this.getCourseDetail();
       }

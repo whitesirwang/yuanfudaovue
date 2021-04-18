@@ -37,7 +37,7 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button @click="seeCourseDetail(scope.row)" type="text" size="medium">编辑课程</el-button>
+            <el-button @click="editCourse(scope.row)" type="text" size="medium">编辑课程</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -97,8 +97,8 @@ export default {
     handleCurrentChange(val) {
       this.getCourses(val, 5, this.tab.type);
     },
-    seeCourseDetail(row) {
-
+    editCourse(row) {
+      this.$router.push("/editcourse/"+row.id);
     },
     handleClick(tab, event) {
       this.getCourses(1, 5, tab.name);

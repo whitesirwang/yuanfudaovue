@@ -47,7 +47,31 @@ export default new Router({
           meta: {
             title: '我开的课'
           }
-        }
+        },
+        {
+          path: '/editcoursedetail/:id',
+          name: '编辑课时',
+          component: () => import('../components/page/teacher/EditCourseDetail.vue'),
+          meta: {
+            title: '编辑课时'
+          }
+        },
+        {
+          path: '/addcoursedetail/:id',
+          name: '添加课时',
+          component: () => import('../components/page/teacher/addCourseDetail.vue'),
+          meta: {
+            title: '添加课时'
+          }
+        },
+        {
+          path: '/editcourse/:id',
+          name: '编辑课程',
+          component: () => import('../components/page/teacher/EditCourse.vue'),
+          meta: {
+            title: '编辑课程'
+          }
+        },
       ]
     },
     {
@@ -93,6 +117,14 @@ export default new Router({
           component: () => import('../components/page/Student/Course'),
           meta: {
             title: '课程信息'
+          }
+        },
+        {
+          path: "/scourseDetail/:id",
+          name: '课时详情',
+          component: () => import('../components/page/Student/CourseDetail'),
+          meta: {
+            title: '课时信息'
           }
         }
       ]

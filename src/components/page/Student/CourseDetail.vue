@@ -1,20 +1,27 @@
 <template>
-  <div class='demo'>
-<!--    <video-player  class="video-player vjs-custom-skin"-->
-<!--                   ref="videoPlayer"-->
-<!--                   :playsinline="true"-->
-<!--                   :options="playerOptions"-->
-<!--    ></video-player>-->
-    <a @click="downloadFile" >下载</a>
+  <div>
+    <el-card>
+      <h2>{{title}}</h2>
+      <video-player
+                           ref="videoPlayer"
+                           :playsinline="true"
+                           :options="playerOptions"
+                           class="video-player vjs-custom-skin">
+
+      </video-player>
+     <p style="font-size: large">
+       {{form.introduction}}
+     </p>
+    </el-card>
   </div>
 </template>
 
 <script>
 export default {
-  name: "videoPlay",
+  name: "StudentCourseDetail",
   data() {
     return {
-      data:'',
+      title: '第一课',
       playerOptions: {
         //播放速度
         playbackRates: [0.5, 1.0, 1.5, 2.0],
@@ -48,53 +55,24 @@ export default {
           //全屏按钮
           fullscreenToggle: true
         }
+      },
+      form: {
+        introduction: '开门红fdsafdsafdsafdsafdsfsdfsdafdsafsadfdsfdsfsdafdsagdsa',
+        fileurl: ''
       }
     }
   },
-  created() {
+  methods: {
 
   },
-  methods: {
-    downloadFile() {
-      var fileurl = this.DHOME + '/vedios/262488c5-cd33-4a7e-9f55-497c7ddbb876.jpg';
-      var x = new XMLHttpRequest();
-      x.open("GET", fileurl, true);
-      x.responseType = "blob";
-      let that = this;
-      x.onprogress = function(event) {
-        //在这里监听文件下载的进度
-      };
-      x.onload = function(e) {
-        var url = window.URL.createObjectURL(x.response);
-        var a = document.createElement("a");
-        a.href = url;
-        a.download = "未命名"; //可以填写默认的下载名称
-        a.click();
-      };
-      x.send();
-    }
+  created() {
+  },
+  watch: {
+
   }
 }
 </script>
 
 <style scoped>
-.demo{
-  display: inline-block;
-  width: 600px;
-  height: 338px;
-  text-align: center;
-  line-height: 100px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  overflow: hidden;
-  background: #fff;
-  position: relative;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
-  margin-right: 4px;
-}
-
-.demo:hover{
-  display: block;
-}
 
 </style>
