@@ -1,14 +1,22 @@
 <template>
   <div>
     <el-card>
-      <h2>基本信息修改</h2>
-      <el-form ref="form" :model="form" label-width="40px">
+      <h2 class="user-title">基本信息修改</h2>
+      <el-form ref="form" :model="form" label-width="40px" label-position="top">
         <el-form-item label="标题">
           <el-input v-model="form.title"></el-input>
         </el-form-item>
         <el-form-item label="简介">
           <el-input v-model="form.introduction"></el-input>
         </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="updateCourseDetail">提交修改</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+    <el-card>
+      <h2 class="user-title">教学视频上传</h2>
+      <el-form label-position="top">
         <el-form-item label="教学视频上传">
           <el-upload
             class="upload-demo"
@@ -35,15 +43,12 @@
             </el-table-column>
           </el-table>
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="updateCourseDetail">提交修改</el-button>
-        </el-form-item>
       </el-form>
     </el-card>
     <el-card>
-      <h2>课件上传</h2>
-      <el-form>
-        <el-form-item label="课件上传">
+      <h2 class="user-title">课件上传</h2>
+      <el-form label-position="top">
+        <el-form-item label="课件上传" >
           <el-upload
             class="upload-demo"
             :action="kejianupload.url"
@@ -101,6 +106,7 @@ export default {
   },
   created() {
     this.getbase();
+    this.getvedio();
     this.getkejian();
   },
   methods: {
@@ -114,7 +120,27 @@ export default {
       }).then((response) =>{
         if (response.data.status === 200) {
           this.form = response.data.result.ans.courseDetail;
-          this.vedio = [response.data.result.ans.file];
+        } else {
+          alert(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
+    getvedio() {
+      this.$axios({
+        method: 'get',
+        url:this.HOME + '/getcourseDetail/'+ this.$route.params.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          if (response.data.result.ans.file === null) {
+            this.vedio = [];
+          } else {
+            this.vedio = [response.data.result.ans.file];
+          }
         } else {
           alert(response.data.message);
         }
@@ -150,9 +176,33 @@ export default {
     handlevSuccess(response, file, fileList) {
       if (response.status === 200) {
         this.form.vurl = response.result.name;
+        this.updatevedio();
       } else {
         alert(response.data.message);
       }
+    },
+    updatevedio() {
+      this.$axios({
+        method: 'put',
+        url:this.HOME + '/updatevedio',
+        data:JSON.stringify({
+          cdid: this.$route.params.id,
+          vurl: this.form.vurl
+        }),
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          alert("上传成功");
+          this.getvedio();
+        } else {
+          alert(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
     },
     addkejian(name) {
       this.$axios({
@@ -183,7 +233,6 @@ export default {
         url:this.HOME + '/courseDetail',
         data:JSON.stringify({
           cdid: this.$route.params.id,
-          vurl: this.form.vurl,
           introduction: this.form.introduction,
           title: this.form.title
         }),
@@ -193,8 +242,7 @@ export default {
         }
       }).then((response) =>{
         if (response.data.status === 200) {
-          alert("跟新成功");
-          this.getkejian();
+          alert("更新成功");
           this.getbase();
         } else {
           alert(response.data.message);
@@ -205,11 +253,25 @@ export default {
     }
   },
   watch: {
-
+    $route(to, from) {
+      var pat = /^\/editcoursedetail\/.*$/;
+      if (pat.test(to.path)) {
+        this.getbase();
+        this.getvedio()
+        this.getkejian();
+      }
+    }
   }
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+.user-title {
+  padding-bottom: 15px;
+  border-bottom: 2px solid @mainColor;
+  margin: 15px 0 45px 0;
+  color: #555;
+  text-align: center;
+  font-size: 30px;
+}
 </style>

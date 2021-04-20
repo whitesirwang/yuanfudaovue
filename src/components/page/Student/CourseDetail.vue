@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <h2>{{title}}</h2>
+      <h2 class="user-title">{{form.title}}</h2>
       <video-player
                            ref="videoPlayer"
                            :playsinline="true"
@@ -13,6 +13,24 @@
        {{form.introduction}}
      </p>
     </el-card>
+    <el-card>
+      <h2 class="user-title">课程课件</h2>
+      <el-table
+        :data="kejian"
+        border
+        style="width: 100%">
+        <el-table-column
+          prop="realname"
+          label="课件名">
+        </el-table-column>
+        <el-table-column
+          label="操作">
+          <template slot-scope="scope">
+            <el-button @click="downloadKejian(scope.row)" type="text" size="medium">下载</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
   </div>
 </template>
 
@@ -21,7 +39,6 @@ export default {
   name: "StudentCourseDetail",
   data() {
     return {
-      title: '第一课',
       playerOptions: {
         //播放速度
         playbackRates: [0.5, 1.0, 1.5, 2.0],
@@ -42,7 +59,7 @@ export default {
           //类型
           type: "video/mp4",
           //url地址
-          src: "http://vjs.zencdn.net/v/oceans.mp4"
+          src: ""
         }],
         //你的封面地址
         poster: '',
@@ -58,14 +75,59 @@ export default {
       },
       form: {
         introduction: '开门红fdsafdsafdsafdsafdsfsdfsdafdsafsadfdsfdsfsdafdsagdsa',
-        fileurl: ''
-      }
+      },
+      kejian: {
+        realname: '',
+      },
+      vedio: {
+      },
     }
   },
   methods: {
+    getbase() {
+      this.$axios({
+        method: 'get',
+        url:this.HOME + '/getcourseDetail/'+ this.$route.params.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.form = response.data.result.ans.courseDetail;
+          this.playerOptions.sources[0].src = "http://localhost:8004/vedios/" + response.data.result.ans.file.url;
+          this.vedio = response.data.result.ans.file;
+        } else {
+          alert(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
+    getkejian() {
+      this.$axios({
+        method: 'get',
+        url:this.HOME + '/kejian/get/'+ this.$route.params.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.kejian = response.data.result.ans;
+        } else {
+          alert(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
+    downloadKejian(row) {
 
+    }
   },
   created() {
+    this.getbase();
+    this.getkejian();
   },
   watch: {
 
@@ -73,6 +135,13 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+.user-title {
+  padding-bottom: 15px;
+  border-bottom: 2px solid @mainColor;
+  margin: 15px 0 45px 0;
+  color: #555;
+  text-align: center;
+  font-size: 30px;
+}
 </style>

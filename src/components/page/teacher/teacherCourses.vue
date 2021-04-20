@@ -105,7 +105,12 @@ export default {
     }
   },
   watch: {
-
+    $route(to, from) {
+      var pat = /^\/teacherCourses$/;
+      if (pat.test(to.path)) {
+        this.getCourses(1, 5, this.tab.type);
+      }
+    }
   }
 }
 </script>

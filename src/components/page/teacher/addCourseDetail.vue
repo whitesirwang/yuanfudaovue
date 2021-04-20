@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <h2>课件名称</h2>
+      <h2 class="user-title">课时名称</h2>
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="标题名称">
           <el-input v-model="form.title"></el-input>
@@ -30,6 +30,10 @@ export default {
 
   },
   methods: {
+    clearall() {
+      this.introduction = '';
+      this.title = ''
+    },
     addCourseDetail() {
       this.$axios({
         method: 'post',
@@ -55,11 +59,23 @@ export default {
     }
   },
   watch: {
-
+    $route(to, from) {
+      var pat = /^\/addcoursedetail\/.*$/;
+      if (pat.test(to.path)) {
+        this.clearall();
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
-
+.user-title {
+  padding-bottom: 15px;
+  border-bottom: 2px solid @mainColor;
+  margin: 15px 0 45px 0;
+  color: #555;
+  text-align: center;
+  font-size: 30px;
+}
 </style>

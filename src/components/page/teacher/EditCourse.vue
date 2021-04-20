@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-card>
-      <h2>课程信息</h2>
-      <el-form ref="form" :model="form" label-width="80px">
+      <h2 class="user-title">课程信息</h2>
+      <el-form ref="form" :model="form" label-width="80px" label-position="top">
         <el-form-item label="课程名">
           {{form.course.name}}
         </el-form-item>
@@ -121,6 +121,13 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+.user-title {
+  padding-bottom: 15px;
+  border-bottom: 2px solid @mainColor;
+  margin: 15px 0 45px 0;
+  color: #555;
+  text-align: center;
+  font-size: 30px;
+}
 </style>

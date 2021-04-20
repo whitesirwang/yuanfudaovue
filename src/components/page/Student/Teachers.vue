@@ -16,7 +16,7 @@
     <div>
       <el-row>
         <el-col :span="8" v-for="(o, index) in teachers" :key="o" >
-          <el-card :body-style="{ padding: '0px' }">
+          <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div slot="header" class="clearfix">
               <span>{{o.name}}</span>
               <el-button style="float: right; padding: 3px 0" type="text" @click="getTeacherDetails(o)">查看详情</el-button>

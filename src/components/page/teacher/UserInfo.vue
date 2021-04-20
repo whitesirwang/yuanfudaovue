@@ -1,8 +1,9 @@
 <template>
   <el-card>
+    <h2 class="user-title">个人信息</h2>
     <el-row>
       <el-col span="12">
-        <el-form ref="form" :model="form" label-width="40px">
+        <el-form ref="form" :model="form" label-width="40px" label-position="top">
           <el-form-item label="姓名">
             <el-input v-model="form.name" disabled></el-input>
           </el-form-item>
@@ -118,10 +119,25 @@ export default {
         console.log(error)
       });
     }
+  },
+  watch:{
+    $route(to, from) {
+      var pat = /^\/tmain$/;
+      if (pat.test(to.path)) {
+        this.getUser();
+      }
+    }
   }
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+.user-title {
+  padding-bottom: 15px;
+  border-bottom: 2px solid @mainColor;
+  margin: 15px 0 45px 0;
+  color: #555;
+  text-align: center;
+  font-size: 30px;
+}
 </style>

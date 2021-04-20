@@ -1,27 +1,35 @@
 <template>
   <div>
     <el-card>
-      <h2>教师信息</h2>
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="姓名">
-          {{form.name}}
-        </el-form-item>
-        <el-form-item label="性别">
-          {{form.gender}}
-        </el-form-item>
-        <el-form-item label="邮箱">
-          {{form.email}}
-        </el-form-item>
-        <el-form-item label="年龄">
-          {{form.age}}
-        </el-form-item>
-        <el-form-item label="自我介绍">
-          {{form.introduction}}
-        </el-form-item>
-        <el-form-item label="评分">
-          {{form.score}}
-        </el-form-item>
-      </el-form>
+      <h2 class="user-title">教师信息</h2>
+      <el-row>
+        <el-col span="12">
+          <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="姓名">
+              {{form.name}}
+            </el-form-item>
+            <el-form-item label="性别">
+              {{form.gender}}
+            </el-form-item>
+            <el-form-item label="邮箱">
+              {{form.email}}
+            </el-form-item>
+            <el-form-item label="年龄">
+              {{form.age}}
+            </el-form-item>
+            <el-form-item label="自我介绍">
+              {{form.introduction}}
+            </el-form-item>
+            <el-form-item label="评分">
+              {{form.score}}
+            </el-form-item>
+          </el-form>
+        </el-col>
+        <el-col span="12">
+          <img :src="img.url" width="100%" height="500">
+        </el-col>
+      </el-row>
+
     </el-card>
     <el-card>
       <el-tabs v-model="tab.type" @tab-click="handleClick">
@@ -120,7 +128,7 @@ export default {
       }).then((response) =>{
         if (response.data.status === 200) {
           this.form = response.data.result;
-          this.img.url = response.data.result.avatorname;
+          this.img.url = 'http://localhost:8004/vedios/'+response.data.result.avatorname;
         } else {
           alert(response.data.message);
         }
@@ -171,9 +179,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .ly-p1{
   display: flex;
   justify-content: space-between;
+}
+.user-title {
+  padding-bottom: 15px;
+  border-bottom: 2px solid @mainColor;
+  margin: 15px 0 45px 0;
+  color: #555;
+  text-align: center;
+  font-size: 30px;
 }
 </style>
