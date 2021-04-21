@@ -85,7 +85,7 @@ export default {
           this.form = response.data.result;
           this.img.url = 'http://localhost:8004/vedios/' + response.data.result.avatorname;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -97,7 +97,7 @@ export default {
           this.form.avatorname = response.result.name;
           this.updateUser();
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
     },
     updateUser() {
@@ -111,9 +111,12 @@ export default {
         }
       }).then((response) =>{
         if (response.data.status === 200) {
-          alert("上传成功");
+          this.$message({
+            message: '上传成功！',
+            type: 'success'
+          });
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)

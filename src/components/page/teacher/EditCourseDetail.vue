@@ -38,7 +38,7 @@
             <el-table-column
               label="操作">
               <template slot-scope="scope">
-                <el-button @click="deleteKejian(scope.row)" type="text" size="medium">删除视频</el-button>
+                <el-button @click="deleteVedio" type="text" size="medium">删除视频</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -110,6 +110,56 @@ export default {
     this.getkejian();
   },
   methods: {
+    deleteVedio() {
+      this.$confirm('是否要删除视频?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+      this.$axios({
+        method: 'delete',
+        url:this.HOME + '/deletevedio/'+ this.form.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          alert("删除成功");
+          this.getvedio();
+        } else {
+          this.$message.error(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      })});
+    },
+    deleteKejian(row) {
+      this.$confirm('确定要删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+      this.$axios({
+        method: 'delete',
+        url:this.HOME + '/kejian/delete/'+ row.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.$message({
+            message: '删除成功！',
+            type: 'success'
+          });
+          this.getkejian();
+        } else {
+          alert(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
+      });
+    },
     getbase() {
       this.$axios({
         method: 'get',
@@ -121,7 +171,7 @@ export default {
         if (response.data.status === 200) {
           this.form = response.data.result.ans.courseDetail;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -142,7 +192,7 @@ export default {
             this.vedio = [response.data.result.ans.file];
           }
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -160,7 +210,7 @@ export default {
         if (response.data.status === 200) {
           this.kejian = response.data.result.ans;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -170,7 +220,7 @@ export default {
       if (response.status === 200) {
         this.addkejian(response.result.name);
       } else {
-        alert(response.data.message);
+        this.$message.error(response.data.message);
       }
     },
     handlevSuccess(response, file, fileList) {
@@ -178,7 +228,7 @@ export default {
         this.form.vurl = response.result.name;
         this.updatevedio();
       } else {
-        alert(response.data.message);
+        this.$message.error(response.data.message);
       }
     },
     updatevedio() {
@@ -195,10 +245,13 @@ export default {
         }
       }).then((response) =>{
         if (response.data.status === 200) {
-          alert("上传成功");
+          this.$message({
+            message: '上传成功！',
+            type: 'success'
+          });
           this.getvedio();
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -218,10 +271,13 @@ export default {
         }
       }).then((response) =>{
         if (response.data.status === 200) {
-          alert("上传成功");
+          this.$message({
+            message: '上传成功！',
+            type: 'success'
+          });
           this.getkejian();
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -242,10 +298,13 @@ export default {
         }
       }).then((response) =>{
         if (response.data.status === 200) {
-          alert("更新成功");
+          this.$message({
+            message: '更新成功！',
+            type: 'success'
+          });
           this.getbase();
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)

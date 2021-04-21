@@ -44,7 +44,7 @@
           },
           {
             title: '我购买的课程',
-            path: '',
+            path: '/scourses',
             icon: 'el-icon-message'
           },
           {

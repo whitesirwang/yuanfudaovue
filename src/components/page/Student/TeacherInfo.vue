@@ -29,7 +29,6 @@
           <img :src="img.url" width="100%" height="500">
         </el-col>
       </el-row>
-
     </el-card>
     <el-card>
       <el-tabs v-model="tab.type" @tab-click="handleClick">

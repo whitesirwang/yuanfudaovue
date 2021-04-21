@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-card>
+      <h2 class="user-title">课程信息</h2>
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="课程名">
           <el-input v-model="form.coursename"></el-input>
@@ -43,6 +44,11 @@ export default {
       this.form.introduction= '';
     },
     onSubmit() {
+      this.$confirm('是否要添加课程?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
       this.form.username = localStorage.getItem("username");
       this.$axios({
         method: 'post',
@@ -55,7 +61,7 @@ export default {
       }).then((response) =>{
         if (response.data.status === 200) {
           this.$message({
-            message: '上传成功！',
+            message: '添加成功！',
             type: 'success'
           });
           this.clearall();
@@ -65,7 +71,7 @@ export default {
       }).catch((error) => {
         console.log(error)
       });
-    }
+    });
   },
   created() {
   },
@@ -78,8 +84,16 @@ export default {
     }
   }
 }
+}
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+.user-title {
+  padding-bottom: 15px;
+  border-bottom: 2px solid @mainColor;
+  margin: 15px 0 45px 0;
+  color: #555;
+  text-align: center;
+  font-size: 30px;
+}
 </style>

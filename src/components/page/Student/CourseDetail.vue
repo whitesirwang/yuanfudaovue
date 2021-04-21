@@ -122,7 +122,22 @@ export default {
       });
     },
     downloadKejian(row) {
-
+      var fileurl = this.DHOME + '/vedios/' + row.url;
+      var x = new XMLHttpRequest();
+      x.open("GET", fileurl, true);
+      x.responseType = "blob";
+      let that = this;
+      x.onprogress = function(event) {
+        //在这里监听文件下载的进度
+      };
+      x.onload = function(e) {
+        var url = window.URL.createObjectURL(x.response);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = row.realname; //可以填写默认的下载名称
+        a.click();
+      };
+      x.send();
     }
   },
   created() {
@@ -130,7 +145,13 @@ export default {
     this.getkejian();
   },
   watch: {
-
+    $route(to, from) {
+      var pat = /^\/scourseDetail\/.*$/;
+      if (pat.test(to.path)) {
+        this.getbase();
+        this.getkejian();
+      }
+    }
   }
 }
 </script>

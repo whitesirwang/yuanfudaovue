@@ -126,7 +126,15 @@ export default new Router({
           meta: {
             title: '课时信息'
           }
-        }
+        },
+        {
+          path: "/scourses",
+          name: '我选的课',
+          component: () => import('../components/page/Student/StudentCourses.vue'),
+          meta: {
+            title: '我选的课'
+          }
+        },
       ]
     },
     {

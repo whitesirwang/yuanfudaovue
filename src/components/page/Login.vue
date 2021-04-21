@@ -72,6 +72,8 @@
               } else {
                 this.$router.push('/teacher');
               }
+            } else {
+              this.$message.success(response.data.message);
             }
           }).catch((error) => {
             console.log(error)

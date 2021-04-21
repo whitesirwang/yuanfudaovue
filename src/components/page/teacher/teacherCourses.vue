@@ -88,7 +88,7 @@ export default {
           this.comp.size = response.data.result.ans.size;
           this.comp.total = response.data.result.ans.total;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)

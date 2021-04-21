@@ -35,6 +35,11 @@ export default {
       this.title = ''
     },
     addCourseDetail() {
+      this.$confirm('确定要添加?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
       this.$axios({
         method: 'post',
         url:this.HOME + '/courseDetail',
@@ -49,14 +54,17 @@ export default {
         }
       }).then((response) =>{
         if (response.data.status === 200) {
-          alert("添加成功");
+          this.$message({
+            message: '添加成功！',
+            type: 'success'
+          });
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
       });
-    }
+    });
   },
   watch: {
     $route(to, from) {
@@ -67,9 +75,10 @@ export default {
     }
   }
 }
+}
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .user-title {
   padding-bottom: 15px;
   border-bottom: 2px solid @mainColor;

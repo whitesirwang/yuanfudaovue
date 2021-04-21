@@ -21,7 +21,7 @@
         <el-form-item label="评分">
           {{form.course.score}}
         </el-form-item>
-        <el-button type="primary" @click="selectCourse">更改信息</el-button>
+        <el-button type="primary" @click="updateCourse">更改信息</el-button>
         <el-button type="primary" @click="addCourseDetail">添加课时</el-button>
       </el-form>
     </el-card>
@@ -45,6 +45,7 @@
         label="操作">
         <template slot-scope="scope">
           <el-button @click="editCourseDetail(scope.row)" type="text" size="medium">编辑课时</el-button>
+          <el-button @click="deleteCourseDetail(scope.row)" type="text" size="medium">删除课时</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -83,6 +84,28 @@ export default {
     indexMethod(index) {
       return index+1;
     },
+    updateCourse() {
+
+    },
+    deleteCourseDetail(row) {
+      this.$axios({
+        method:'delete',
+        url:this.HOME + '/deleteCourseDetail/' + row.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.$message.success("删除成功");
+          this.getCourseDetail();
+        } else {
+          this.$message.error(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+
+    },
     getCourseDetail() {
       this.$axios({
         method:'get',
@@ -97,7 +120,7 @@ export default {
           this.form.course.cnt = response.data.result.ans.cnt;
           this.courseDetail = response.data.result.ans.courseDetail;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error);
