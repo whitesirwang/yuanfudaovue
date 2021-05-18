@@ -25,8 +25,8 @@
                 <el-form-item label="性别" style="font-size: 20px">
                   {{o.gender}}
                 </el-form-item>
-                <el-form-item label="评分" style="font-size: 20px">
-                  {{o.score}}
+                <el-form-item label="好评率" style="font-size: 20px">
+                  <el-progress type="circle" :percentage="Math.floor(o.rate * 100)"></el-progress>
                 </el-form-item>
                 <el-form-item label="年龄" style="font-size: 20px">
                   {{o.age}}

@@ -38,19 +38,12 @@ export default {
           icon: 'el-icon-message'
         },
         {
-          title: '课程',
-          path: 'cccc',
-          icon: 'el-icon-message',
-          subItems: [
-            {
-              title: '开课',
-              path: '/addcourse'
-            },
-            {
-              title: '我开的课',
-              path: '/teacherCourses'
-            }
-          ]
+          title: '开课',
+          path: '/addcourse'
+        },
+        {
+          title: '我开的课',
+          path: '/teacherCourses'
         }
       ]
     }

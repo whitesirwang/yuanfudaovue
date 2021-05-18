@@ -6,7 +6,7 @@
       <el-tab-pane label="高中教程" name="高中"></el-tab-pane>
       <el-tab-pane label="大学教程" name="大学"></el-tab-pane>
     </el-tabs>
-    <div style="margin-bottom: 10px">
+    <div style="margin-bottom: 10px; height: 20px">
       <el-pagination
         @current-change="handleCurrentChange"
         :current-page.sync="comp.current"

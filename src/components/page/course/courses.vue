@@ -58,8 +58,7 @@ export default {
         size: 5,
         total: 0
       },
-      courses: [{
-      }]
+      courses: []
     }
   },
   created() {
@@ -108,6 +107,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+.header-portrait {
+  .circle(40px);
+  margin: 0 20px;
+  vertical-align: middle;
+}
 </style>

@@ -4,13 +4,18 @@
       <h2 class="user-title">课程信息</h2>
       <el-form ref="form" :model="form" label-width="80px" label-position="top">
         <el-form-item label="课程名">
-          {{form.course.name}}
+          <el-input v-model="form.course.name"></el-input>
         </el-form-item>
-        <el-form-item label="课程名">
-          {{form.course.type}}
+        <el-form-item label="课程类型">
+          <el-select v-model="form.course.type" placeholder="小学">
+            <el-option label="小学" value="小学"></el-option>
+            <el-option label="初中" value="初中"></el-option>
+            <el-option label="高中" value="高中"></el-option>
+            <el-option label="大学" value="大学"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="课程简介">
-          {{form.course.introduction}}
+          <el-input type="textarea" v-model="form.course.introduction"></el-input>
         </el-form-item>
         <el-form-item label="讲课老师">
           {{form.teacher.name}}
@@ -85,7 +90,24 @@ export default {
       return index+1;
     },
     updateCourse() {
-
+      this.$axios({
+        method:'put',
+        url:this.HOME + '/course/updatecourse',
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+          'Content-Type': 'application/json'
+        },
+        data: JSON.stringify(this.form.course)
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.$message.success("修改成功");
+          this.getCourseDetail();
+        } else {
+          this.$message.error(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
     },
     deleteCourseDetail(row) {
       this.$axios({
