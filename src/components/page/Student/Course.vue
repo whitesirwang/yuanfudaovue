@@ -18,8 +18,8 @@
         <el-form-item label="选课人数">
           {{form.course.cnt}}
         </el-form-item>
-        <el-form-item label="评分">
-          {{form.course.score}}
+        <el-form-item label="好评率">
+          <el-progress type="circle" :percentage="Math.floor(form.course.rate * 100)"></el-progress>
         </el-form-item>
         <el-button type="primary" @click="selectCourse">我要选此课程</el-button>
       </el-form>
@@ -47,6 +47,41 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-card>
+      <div>
+        <h2 class="user-title">留言</h2>
+        <el-form ref="form" v-model="addcomment">
+          <el-select v-model="addcomment.score" placeholder="好评">
+            <el-option label="好评" value="好评"></el-option>
+            <el-option label="差评" value="差评"></el-option>
+          </el-select>
+          <el-input type="textarea" v-model="addcomment.comment" aria-placeholder="输入你的评论吧"></el-input>
+          <el-button type="primary" @click="submitComment">提交</el-button>
+        </el-form>
+        <el-tabs v-model="activeName" @tab-click="handleClick2">
+          <el-tab-pane label="好评" name="好评"></el-tab-pane>
+          <el-tab-pane label="差评" name="差评"></el-tab-pane>
+        </el-tabs>
+        <div style="margin-bottom: 10px; height: 20px; display: block">
+          <el-pagination
+            @current-change="handleCurrentChange2"
+            :current-page.sync="comp2.current"
+            layout="total, prev, pager, next"
+            :page-size="5"
+            :total="comp2.total"
+            style="margin-bottom: 0">
+          </el-pagination>
+        </div>
+        <el-card style="width: 100%" v-for="(o, index) in comment" :key="o">
+          <div style="font-size:15px;font-weight:bold;">
+            <span>{{o.username}}</span>&nbsp;&nbsp;
+            发表于&nbsp;&nbsp;
+            <span>{{o.date}}</span>
+          </div><hr>
+          <p>{{o.content}}</p>
+        </el-card>
+      </div>
+    </el-card>
   </div>
 </template>
 
@@ -55,6 +90,19 @@ export default {
   name: "StudentCourse",
   data() {
     return {
+      addcomment: {
+        comment: "",
+        score: ""
+      },
+      comment: {
+
+      },
+      activeName: "好评",
+      comp2: {
+        current: 1,
+        size: 5,
+        total: 0
+      },
       form: {
         teacher: {
 
@@ -71,14 +119,84 @@ export default {
         vid: 22,
         fid: 19,
         date: "2021-04-15T10:43:56.000+0000",
-        cnt: 0
+        cntt: 0
       }]
     }
   },
   created() {
     this.getCourseDetail();
+    this.getComment(1, 5, this.activeName === "好评" ? 1 : -1);
   },
   methods: {
+
+    submitComment() {
+      this.$confirm('是否要评论？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var pdata = {
+          content: this.addcomment.comment,
+          cid: this.$route.params.id,
+          score: this.addcomment.score === "好评" ? 1 : -1,
+        }
+        this.$axios({
+          method: 'post',
+          url:this.HOME + '/courseComment',
+          data:JSON.stringify(pdata),
+          headers: {
+            'accessToken': localStorage.getItem("accessToken"),
+            'Content-Type': 'application/json'
+          }
+        }).then((response) =>{
+          this.addcomment.comment = "";
+          if (response.data.status === 200) {
+            this.$message({
+              message: '添加成功！',
+              type: 'success'
+            });
+          } else {
+            this.$message.error(response.data.message);
+          }
+        }).catch((error) => {
+          console.log(error)
+        });
+      });
+    },
+    handleCurrentChange2(val) {
+      this.getComment(val, 5, this.activeName === "好评" ? 1 : -1);
+    },
+    handleClick2(tab, event) {
+      this.getComment(1, 5, tab.name === "好评" ? 1 : -1)
+    },
+    getComment(cur, sz, score) {
+      //alert(username);
+      this.$axios({
+        method:'get',
+        url:this.HOME + '/courseComment/',
+        params: {
+          size: sz,
+          current: cur,
+          score: score,
+          cid: this.$route.params.id
+        },
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.comment = response.data.result.ans.records;
+          this.comp2.current = response.data.result.ans.current;
+          this.comp2.size = response.data.result.ans.size;
+          this.comp2.total = response.data.result.ans.total;
+        } else {
+          alert(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
+
     indexMethod(index) {
       return index+1;
     },
@@ -142,6 +260,7 @@ export default {
       var pat = /^\/scourse\/.*$/;
       if (pat.test(to.path)) {
         this.getCourseDetail();
+        this.getComment(1, 5, 1);
       }
     }
   }

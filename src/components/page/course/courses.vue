@@ -29,7 +29,7 @@
             </div>
             <el-form style="padding-left: 20px">
               <el-form-item label="选课人数" style="font-size: 20px">
-                {{o.cnt}}
+                {{o.cntt}}
               </el-form-item>
               <el-form-item label="评分" style="font-size: 20px">
                 {{o.score}}

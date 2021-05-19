@@ -57,7 +57,7 @@
           label="课程名">
         </el-table-column>
         <el-table-column
-          prop="cnt"
+          prop="cntt"
           label="选课人数">
         </el-table-column>
         <el-table-column
@@ -196,7 +196,7 @@ export default {
       });
     },
     handleCurrentChange2(val) {
-      this.getComment(val, 5, this.$route.params.username);
+      this.getComment(val, 5, this.activeName === "好评" ? 1 : -1, this.$route.params.username);
     },
     handleClick2(tab, event) {
       this.getComment(1, 5, tab.name === "好评" ? 1 : -1, this.$route.params.username)
