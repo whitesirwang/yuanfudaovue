@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card>
+    <el-card style="margin-bottom: 20px">
       <h2 class="user-title">教师信息</h2>
       <el-row>
         <el-col span="12">
@@ -11,9 +11,6 @@
             <el-form-item label="性别">
               {{form.gender}}
             </el-form-item>
-            <el-form-item label="邮箱">
-              {{form.email}}
-            </el-form-item>
             <el-form-item label="年龄">
               {{form.age}}
             </el-form-item>
@@ -23,6 +20,23 @@
             <el-form-item label="好评率">
               <el-progress type="circle" :percentage="Math.floor(form.rate * 100)"></el-progress>
             </el-form-item>
+            <el-form-item label="私信">
+              <el-button type="primary" @click="dialogFormVisible = true">和他私聊</el-button>
+              <el-dialog title="私信" :visible.sync="dialogFormVisible">
+                <el-form :model="sendMail">
+                  <el-form-item label="标题">
+                    <el-input v-model="sendMail.title"></el-input>
+                  </el-form-item>
+                  <el-form-item label="正文">
+                    <el-input type="textarea" v-model="sendMail.content"></el-input>
+                  </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                  <el-button @click="dialogFormVisible = false">取消</el-button>
+                  <el-button type="primary" @click="sedMail">发送</el-button>
+                </div>
+              </el-dialog>
+            </el-form-item>
           </el-form>
         </el-col>
         <el-col span="12">
@@ -30,7 +44,7 @@
         </el-col>
       </el-row>
     </el-card>
-    <el-card>
+    <el-card style="margin-bottom: 20px">
       <h2 class="user-title">教师开的课程</h2>
       <el-tabs v-model="tab.type" @tab-click="handleClick">
         <el-tab-pane label="小学教程" name="小学"></el-tab-pane>
@@ -98,7 +112,7 @@
             style="margin-bottom: 0">
           </el-pagination>
         </div>
-          <el-card style="width: 100%" v-for="(o, index) in comment" :key="o">
+          <el-card style="margin-bottom : 10px; width: 100%" v-for="(o, index) in comment" :key="o">
             <div style="font-size:15px;font-weight:bold;">
               <span>{{o.username}}</span>&nbsp;&nbsp;
               发表于&nbsp;&nbsp;
@@ -119,9 +133,13 @@ export default {
   name: "TeacherDetailInfo",
   data() {
     return {
+      dialogFormVisible: false,
+      sendMail: {
+
+      },
       addcomment: {
         comment: "",
-        score: ""
+        score: "好评"
       },
       comment: {
 
@@ -160,6 +178,40 @@ export default {
     this.getComment(1, 5, 1, this.$route.params.username);
   },
   methods: {
+    sedMail() {
+      this.$confirm('是否要发送？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+          this.$axios({
+            method: 'post',
+            url:this.HOME + '/mail/sendmail',
+            data:JSON.stringify({
+              content: this.sendMail.content,
+              title: this.sendMail.title,
+              reply: -1,
+              to: this.form.uid
+            }),
+            headers: {
+              'accessToken': localStorage.getItem("accessToken"),
+              'Content-Type': 'application/json'
+            }
+          }).then((response) =>{
+              if (response.data.status === 200) {
+                this.$message({
+                  message: '发送成功！',
+                  type: 'success'
+                });
+                this.dialogFormVisible = false;
+              } else {
+                this.$message.error(response.data.message);
+              }
+          }).catch((error) => {
+            console.log(error)
+          });
+      });
+    },
     submitComment() {
       this.$confirm('是否要评论？', '提示', {
         confirmButtonText: '确定',
@@ -245,7 +297,11 @@ export default {
       }).then((response) =>{
         if (response.data.status === 200) {
           this.form = response.data.result;
-          this.img.url = 'http://localhost:8004/vedios/'+response.data.result.avatorname;
+          if (response.data.result.avatorname !== null) {
+            this.img.url = 'http://localhost:8004/vedios/'+response.data.result.avatorname;
+          }else {
+            this.img.url = 'static/error-page.png'
+          }
         } else {
           alert(response.data.message);
         }

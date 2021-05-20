@@ -19,7 +19,7 @@ export default new Router({
         {
           path: '/tmail',
           name: '教师邮件',
-          component: () => import('../components/page/Mail.vue'),
+          component: () => import('../components/page/teacher/TMail.vue'),
           meta: {
             title: '教师邮件'
           }
@@ -96,9 +96,9 @@ export default new Router({
           }
         },
         {
-          path: '/pmail',
+          path: '/smail',
           name: '学生邮件',
-          component: () => import('../components/page/Mail.vue'),
+          component: () => import('../components/page/Student/SMail.vue'),
           meta: {
             title: '学生邮件'
           }

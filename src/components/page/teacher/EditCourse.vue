@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card>
+    <el-card style="margin-bottom: 20px">
       <h2 class="user-title">课程信息</h2>
       <el-form ref="form" :model="form" label-width="80px" label-position="top">
         <el-form-item label="课程名">
@@ -30,30 +30,32 @@
         <el-button type="primary" @click="addCourseDetail">添加课时</el-button>
       </el-form>
     </el-card>
-    <el-table
-      :data="courseDetail"
-      border
-      style="width: 100%">
-      <el-table-column
-        type="index"
-        :index="indexMethod">
-      </el-table-column>
-      <el-table-column
-        prop="title"
-        label="课时名">
-      </el-table-column>
-      <el-table-column
-        label="更新时间"
-        prop="date">
-      </el-table-column>
-      <el-table-column
-        label="操作">
-        <template slot-scope="scope">
-          <el-button @click="editCourseDetail(scope.row)" type="text" size="medium">编辑课时</el-button>
-          <el-button @click="deleteCourseDetail(scope.row)" type="text" size="medium">删除课时</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-card>
+      <el-table
+        :data="courseDetail"
+        border
+        style="width: 100%">
+        <el-table-column
+          type="index"
+          :index="indexMethod">
+        </el-table-column>
+        <el-table-column
+          prop="title"
+          label="课时名">
+        </el-table-column>
+        <el-table-column
+          label="更新时间"
+          prop="date">
+        </el-table-column>
+        <el-table-column
+          label="操作">
+          <template slot-scope="scope">
+            <el-button @click="editCourseDetail(scope.row)" type="text" size="medium">编辑课时</el-button>
+            <el-button @click="deleteCourseDetail(scope.row)" type="text" size="medium">删除课时</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
   </div>
 </template>
 

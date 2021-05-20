@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-card>
-      <h2>课程信息</h2>
+    <el-card style="margin-bottom: 20px">
+      <h2 class="user-title">课程信息</h2>
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="课程名">
           {{form.course.name}}
@@ -24,29 +24,32 @@
         <el-button type="primary" @click="selectCourse">我要选此课程</el-button>
       </el-form>
     </el-card>
-    <el-table
-      :data="courseDetail"
-      border
-      style="width: 100%">
-      <el-table-column
-        type="index"
-        :index="indexMethod">
-      </el-table-column>
-      <el-table-column
-        prop="title"
-        label="课时名">
-      </el-table-column>
-      <el-table-column
-      label="更新时间"
-      prop="date">
-      </el-table-column>
-      <el-table-column
-        label="操作">
-        <template slot-scope="scope">
-          <el-button @click="seeCourseDetail(scope.row)" type="text" size="medium">查看详情</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-card style="margin-bottom: 20px">
+      <h2 class="user-title">课时</h2>
+      <el-table
+        :data="courseDetail"
+        border
+        style="width: 100%">
+        <el-table-column
+          type="index"
+          :index="indexMethod">
+        </el-table-column>
+        <el-table-column
+          prop="title"
+          label="课时名">
+        </el-table-column>
+        <el-table-column
+          label="更新时间"
+          prop="date">
+        </el-table-column>
+        <el-table-column
+          label="操作">
+          <template slot-scope="scope">
+            <el-button @click="seeCourseDetail(scope.row)" type="text" size="medium">查看详情</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
     <el-card>
       <div>
         <h2 class="user-title">留言</h2>
@@ -72,7 +75,7 @@
             style="margin-bottom: 0">
           </el-pagination>
         </div>
-        <el-card style="width: 100%" v-for="(o, index) in comment" :key="o">
+        <el-card style="margin-bottom : 10px; width: 100%;" v-for="(o, index) in comment" :key="o" >
           <div style="font-size:15px;font-weight:bold;">
             <span>{{o.username}}</span>&nbsp;&nbsp;
             发表于&nbsp;&nbsp;
@@ -92,7 +95,7 @@ export default {
     return {
       addcomment: {
         comment: "",
-        score: ""
+        score: "好评"
       },
       comment: {
 
@@ -267,6 +270,17 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+.ly-p1{
+  display: flex;
+  justify-content: space-between;
+}
+.user-title {
+  padding-bottom: 15px;
+  border-bottom: 2px solid @mainColor;
+  margin: 15px 0 45px 0;
+  color: #555;
+  text-align: center;
+  font-size: 30px;
+}
 </style>

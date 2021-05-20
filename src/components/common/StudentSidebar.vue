@@ -49,7 +49,7 @@
           },
           {
             title: '邮件',
-            path: '/pmail',
+            path: '/smail',
             icon: 'el-icon-message'
           }
         ]
