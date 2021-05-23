@@ -25,14 +25,11 @@
               <el-button style="float: right; padding: 3px 0" type="text" @click="seeCourseDetail(o)">查看详情</el-button>
             </div>
             <el-form style="padding-left: 20px">
-              <el-form-item label="选课人数" style="font-size: 20px">
-                {{o.cntt}}
-              </el-form-item>
-              <el-form-item label="评分" style="font-size: 20px">
-                {{o.score}}
-              </el-form-item>
               <el-form-item label="讲课老师" style="font-size: 20px">
                 {{o.teachername}}
+              </el-form-item>
+              <el-form-item label="好评率">
+                <el-progress type="circle" :percentage="Math.floor(o.rate * 100)"></el-progress>
               </el-form-item>
             </el-form>
           </el-card>

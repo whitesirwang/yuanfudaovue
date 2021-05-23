@@ -15,7 +15,7 @@
         </el-form-item>
         <el-form-item>
           <el-button class="login-btn" type="primary" @click="submitForm('ruleForm')">登录</el-button>
-          <p class="login-tip">提示：用户名和密可以随便填。</p>
+<!--          <p class="login-tip">提示：用户名和密可以随便填。</p>-->
         </el-form-item>
       </el-form>
     </div>

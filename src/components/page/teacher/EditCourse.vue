@@ -23,8 +23,8 @@
         <el-form-item label="选课人数">
           {{form.course.cnt}}
         </el-form-item>
-        <el-form-item label="评分">
-          {{form.course.score}}
+        <el-form-item label="好评率">
+          <el-progress type="circle" :percentage="Math.floor(form.course.rate * 100)"></el-progress>
         </el-form-item>
         <el-button type="primary" @click="updateCourse">更改信息</el-button>
         <el-button type="primary" @click="addCourseDetail">添加课时</el-button>

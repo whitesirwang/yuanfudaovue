@@ -18,10 +18,18 @@ export default new Router({
       children: [
         {
           path: '/tmail',
-          name: '教师邮件',
-          component: () => import('../components/page/teacher/TMail.vue'),
+          name: '邮件',
+          component: () => import('../components/page/Teacher/SMail.vue'),
           meta: {
-            title: '教师邮件'
+            title: '邮件'
+          }
+        },
+        {
+          path: "/tmaildetail/:id",
+          name: "邮件详情",
+          component: () => import('../components/page/Teacher/SeeMail.vue'),
+          meta: {
+            title: '邮件详情'
           }
         },
         {
@@ -97,10 +105,18 @@ export default new Router({
         },
         {
           path: '/smail',
-          name: '学生邮件',
+          name: '邮件',
           component: () => import('../components/page/Student/SMail.vue'),
           meta: {
-            title: '学生邮件'
+            title: '邮件'
+          }
+        },
+        {
+          path: "/smaildetail/:id",
+          name: "邮件详情",
+          component: () => import('../components/page/Student/SeeMail.vue'),
+          meta: {
+            title: '邮件详情'
           }
         },
         {

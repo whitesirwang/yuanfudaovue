@@ -35,17 +35,17 @@
           {
             title: '教师总览',
             path: '/teachers',
-            icon: 'el-icon-zoom-in'
+            icon: 'el-icon-zoom-out'
           },
           {
             title: '课程总览',
             path: '/courses',
-            icon: 'el-icon-message'
+            icon: 'el-icon-view'
           },
           {
-            title: '我购买的课程',
+            title: '我选择的课程',
             path: '/scourses',
-            icon: 'el-icon-message'
+            icon: 'el-icon-goods'
           },
           {
             title: '邮件',

@@ -24,7 +24,11 @@
         <el-button type="primary" @click="selectCourse">我要选此课程</el-button>
       </el-form>
     </el-card>
-    <el-card style="margin-bottom: 20px">
+    <el-tabs v-model="tab.courseDetail">
+      <el-tab-pane label="课时" name="课时"></el-tab-pane>
+      <el-tab-pane label="评论" name="评论"></el-tab-pane>
+    </el-tabs>
+    <el-card style="margin-bottom: 20px" :hidden="tab.courseDetail === '评论'">
       <h2 class="user-title">课时</h2>
       <el-table
         :data="courseDetail"
@@ -50,7 +54,7 @@
         </el-table-column>
       </el-table>
     </el-card>
-    <el-card>
+    <el-card :hidden="tab.courseDetail === '课时'">
       <div>
         <h2 class="user-title">留言</h2>
         <el-form ref="form" v-model="addcomment">
@@ -99,6 +103,9 @@ export default {
       },
       comment: {
 
+      },
+      tab: {
+        courseDetail: "课时"
       },
       activeName: "好评",
       comp2: {

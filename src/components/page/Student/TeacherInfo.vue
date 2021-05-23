@@ -44,7 +44,11 @@
         </el-col>
       </el-row>
     </el-card>
-    <el-card style="margin-bottom: 20px">
+    <el-tabs v-model="tab.teacherDetail">
+      <el-tab-pane label="课程" name="课程"></el-tab-pane>
+      <el-tab-pane label="评论" name="评论"></el-tab-pane>
+    </el-tabs>
+    <el-card style="margin-bottom: 20px" :hidden="tab.teacherDetail === '评论'">
       <h2 class="user-title">教师开的课程</h2>
       <el-tabs v-model="tab.type" @tab-click="handleClick">
         <el-tab-pane label="小学教程" name="小学"></el-tab-pane>
@@ -75,9 +79,11 @@
           label="选课人数">
         </el-table-column>
         <el-table-column
-          prop="rate"
           label="好评率"
         >
+          <template slot-scope="scope">
+            {{Math.floor(scope.row.rate * 100) + '%'}}
+          </template>
         </el-table-column>
         <el-table-column
         label="操作">
@@ -87,7 +93,7 @@
         </el-table-column>
       </el-table>
     </el-card>
-    <el-card>
+    <el-card :hidden="tab.teacherDetail === '课程'">
       <div>
         <h2 class="user-title">留言</h2>
         <el-form ref="form" v-model="addcomment">
@@ -133,6 +139,7 @@ export default {
   name: "TeacherDetailInfo",
   data() {
     return {
+
       dialogFormVisible: false,
       sendMail: {
 
@@ -168,6 +175,7 @@ export default {
       },
       tab: {
         type: "高中",
+        teacherDetail: "课程"
       },
       table: []
     }

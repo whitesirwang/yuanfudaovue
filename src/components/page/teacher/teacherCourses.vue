@@ -26,13 +26,15 @@
           label="课程名">
         </el-table-column>
         <el-table-column
-          prop="cnt"
+          prop="cntt"
           label="选课人数">
         </el-table-column>
         <el-table-column
-          prop="score"
-          label="评分"
+          label="好评率"
         >
+          <template slot-scope="scope">
+           {{Math.floor(scope.row.rate * 100) + '%'}}
+          </template>
         </el-table-column>
         <el-table-column
           label="操作">

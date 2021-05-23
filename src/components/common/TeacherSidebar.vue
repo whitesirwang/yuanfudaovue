@@ -33,17 +33,19 @@ export default {
       isCollapse: false,
       items: [
         {
-          title: '邮件',
-          path: '/tmail',
-          icon: 'el-icon-message'
-        },
-        {
           title: '开课',
-          path: '/addcourse'
+          path: '/addcourse',
+          icon: 'el-icon-edit'
         },
         {
           title: '我开的课',
-          path: '/teacherCourses'
+          path: '/teacherCourses',
+          icon: 'el-icon-zoom-in'
+        },
+        {
+          title: '邮件',
+          path: '/tmail',
+          icon: 'el-icon-message'
         }
       ]
     }

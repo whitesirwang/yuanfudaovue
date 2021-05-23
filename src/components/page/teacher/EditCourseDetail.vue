@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card>
+    <el-card style="margin-bottom: 20px">
       <h2 class="user-title">基本信息修改</h2>
       <el-form ref="form" :model="form" label-width="40px" label-position="top">
         <el-form-item label="标题">
@@ -14,7 +14,11 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-card>
+    <el-tabs v-model="tab.courseDetail">
+      <el-tab-pane label="课件" name="课件"></el-tab-pane>
+      <el-tab-pane label="视频" name="视频"></el-tab-pane>
+    </el-tabs>
+    <el-card style="margin-bottom: 20px" :hidden="tab.courseDetail === '课件'">
       <h2 class="user-title">教学视频上传</h2>
       <el-form label-position="top">
         <el-form-item label="教学视频上传">
@@ -24,13 +28,13 @@
             :file-list="vupload.fileList"
             :on-success="handlevSuccess"
             :limit="1"
-            :show-file-list="false">
+            :show-file-list="true">
             <el-button size="small" type="primary">上传视频</el-button>
           </el-upload>
           <el-table
             :data="vedio"
             border
-            style="width: 100%">
+            style="width: 100%" >
             <el-table-column
               prop="realname"
               label="视频文件名">
@@ -45,7 +49,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-card>
+    <el-card :hidden="tab.courseDetail === '视频'">
       <h2 class="user-title">课件上传</h2>
       <el-form label-position="top">
         <el-form-item label="课件上传" >
@@ -55,7 +59,7 @@
             :file-list="kejianupload.fileList"
             :on-success="handleKejianSuccess"
             :limit="5"
-            :show-file-list="false">
+            :show-file-list="true">
             <el-button size="small" type="primary">上传课件</el-button>
           </el-upload>
           <el-table
@@ -84,6 +88,9 @@ export default {
   name: "EditCourseDetail",
   data() {
     return {
+      tab: {
+        courseDetail: ""
+      },
       form: {
 
       },
@@ -106,8 +113,9 @@ export default {
   },
   created() {
     this.getbase();
-    this.getvedio();
     this.getkejian();
+    this.getvedio();
+
   },
   methods: {
     deleteVedio() {
@@ -212,6 +220,7 @@ export default {
         } else {
           this.$message.error(response.data.message);
         }
+       this.tab.courseDetail = '视频';
       }).catch((error) => {
         console.log(error)
       });

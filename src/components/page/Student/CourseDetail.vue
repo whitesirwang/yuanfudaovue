@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-card>
+    <el-card style="margin-bottom: 20px">
       <h2 class="user-title">{{form.title}}</h2>
       <video-player
                            ref="videoPlayer"
