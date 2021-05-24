@@ -2,27 +2,37 @@
   <div>
     <el-card style="margin-bottom: 20px">
       <h2 class="user-title">课程信息</h2>
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="课程名">
-          {{form.course.name}}
-        </el-form-item>
-        <el-form-item label="课程名">
-          {{form.course.type}}
-        </el-form-item>
-        <el-form-item label="课程简介">
-         {{form.course.introduction}}
-        </el-form-item>
-        <el-form-item label="讲课老师">
-          {{form.teacher.name}}
-        </el-form-item>
-        <el-form-item label="选课人数">
-          {{form.course.cnt}}
-        </el-form-item>
-        <el-form-item label="好评率">
-          <el-progress type="circle" :percentage="Math.floor(form.course.rate * 100)"></el-progress>
-        </el-form-item>
-        <el-button type="primary" @click="selectCourse">我要选此课程</el-button>
-      </el-form>
+      <el-row>
+        <el-col span="12">
+          <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="课程名">
+              {{form.course.name}}
+            </el-form-item>
+            <el-form-item label="课程名">
+              {{form.course.type}}
+            </el-form-item>
+            <el-form-item label="课程简介">
+              {{form.course.introduction}}
+            </el-form-item>
+            <el-form-item label="讲课老师">
+              {{form.teacher.name}}
+            </el-form-item>
+            <el-form-item label="选课人数">
+              {{form.course.cnt}}
+            </el-form-item>
+            <el-button type="primary" @click="selectCourse">我要选此课程</el-button>
+          </el-form>
+        </el-col>
+        <el-col span="12">
+          <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="好评率">
+              <el-progress width="300" type="circle" :percentage="Math.floor(form.course.rate * 100)"></el-progress>
+            </el-form-item>
+          </el-form>
+
+        </el-col>
+      </el-row>
+
     </el-card>
     <el-tabs v-model="tab.courseDetail">
       <el-tab-pane label="课时" name="课时"></el-tab-pane>

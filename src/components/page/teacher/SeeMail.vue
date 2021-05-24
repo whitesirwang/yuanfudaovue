@@ -3,20 +3,30 @@
     <el-card>
       <h2 class="user-title">邮件信息</h2>
       <el-form ref="form" :model="Mail" label-width="80px" label-position="top">
-        <el-form-item label="标题">
-          {{Mail.mail.title}}
-        </el-form-item>
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="标题">
+              {{Mail.mail.title}}
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="发件人">
+              {{Mail.from}}
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="收件人">
+              {{Mail.to}}
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="时间">
+              {{Mail.mail.date}}
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item label="正文">
           {{Mail.mail.content}}
-        </el-form-item>
-        <el-form-item label="发件人">
-          {{Mail.from}}
-        </el-form-item>
-        <el-form-item label="收件人">
-          {{Mail.to}}
-        </el-form-item>
-        <el-form-item label="时间">
-          {{Mail.mail.date}}
         </el-form-item>
         <el-form-item label="所回复的邮件">
           <el-button type="primary" @click="seeRet(Mail.mail.reply)">查看回复</el-button>

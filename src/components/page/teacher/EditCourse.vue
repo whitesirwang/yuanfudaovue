@@ -15,7 +15,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="课程简介">
-          <el-input type="textarea" v-model="form.course.introduction"></el-input>
+          <el-input type="textarea" v-model="form.course.introduction" :rows="6"></el-input>
         </el-form-item>
         <el-form-item label="讲课老师">
           {{form.teacher.name}}

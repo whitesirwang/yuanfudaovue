@@ -90,6 +90,20 @@ export default new Router({
       },
       children: [
         {
+          path: '/smultiproblem/:id',
+          component: () => import('../components/page/Student/MultiProblem.vue'),
+          meta: {
+            title: '多选题'
+          }
+        },
+        {
+          path: '/shomeworktype/:id',
+          component: () => import('../components/page/Student/HomeworkType.vue'),
+          meta: {
+            title: '作业大纲'
+          }
+        },
+        {
           path: '/teachers',
           component: () => import('../components/page/Student/Teachers.vue'),
           meta: {

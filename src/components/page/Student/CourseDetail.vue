@@ -13,7 +13,7 @@
        {{form.introduction}}
      </p>
     </el-card>
-    <el-card>
+    <el-card style="margin-bottom: 20px">
       <h2 class="user-title">课程课件</h2>
       <el-table
         :data="kejian"
@@ -31,6 +31,31 @@
         </el-table-column>
       </el-table>
     </el-card>
+    <el-card>
+      <h2 class="user-title">课后习题</h2>
+      <el-table
+        :data="homework"
+        border
+        style="width: 100%">
+        <el-table-column
+          prop="title"
+          label="名称">
+        </el-table-column>
+        <el-table-column
+        label="截止日期">
+          <template slot-scope="scope">
+            <i class="el-icon-time"></i>
+            <span style="margin-left: 10px">{{ scope.row.ddl}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="操作">
+          <template slot-scope="scope">
+            <el-button @click="seeHomeworkDetail(scope.row)" type="text" size="medium">查看详情</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
   </div>
 </template>
 
@@ -39,6 +64,9 @@ export default {
   name: "StudentCourseDetail",
   data() {
     return {
+      homework: {
+
+      },
       playerOptions: {
         //播放速度
         playbackRates: [0.5, 1.0, 1.5, 2.0],
@@ -84,6 +112,28 @@ export default {
     }
   },
   methods: {
+    getHomework() {
+      this.$axios({
+        method: 'get',
+        url:this.HOME + '/homework/gethomework/'+ this.$route.params.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          if (response.data.result.ans.homework !== null) {
+            this.homework = [response.data.result.ans.homework];
+          }
+        } else {
+          alert(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
+    seeHomeworkDetail(row) {
+      this.$router.push("/shomeworktype/" + row.id);
+    },
     getbase() {
       this.$axios({
         method: 'get',
@@ -143,6 +193,7 @@ export default {
   created() {
     this.getbase();
     this.getkejian();
+    this.getHomework();
   },
   watch: {
     $route(to, from) {
@@ -150,6 +201,7 @@ export default {
       if (pat.test(to.path)) {
         this.getbase();
         this.getkejian();
+        this.getHomework();
       }
     }
   }
