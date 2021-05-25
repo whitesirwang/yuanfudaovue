@@ -17,6 +17,14 @@ export default new Router({
       },
       children: [
         {
+          path: '/tedithomework/:id',
+          name: '编辑课后作业',
+          component: () => import('../components/page/Teacher/EditHomework.vue'),
+          meta: {
+            title: '编辑课后作业'
+          }
+        },
+        {
           path: '/tmail',
           name: '邮件',
           component: () => import('../components/page/Teacher/SMail.vue'),
@@ -89,6 +97,41 @@ export default new Router({
         title: '学生公共部分'
       },
       children: [
+        {
+          path: '/storfproblemstatus/:id',
+          component: () => import('../components/page/Student/YesOrNoProblemStatus.vue'),
+          meta: {
+            title: '判断题'
+          }
+        },
+        {
+          path: '/ssingleproblemstatus/:id',
+          component: () => import('../components/page/Student/SingleProblemStatus.vue'),
+          meta: {
+            title: '单选题'
+          }
+        },
+        {
+          path: '/smultiproblemstatus/:id',
+          component: () => import('../components/page/Student/MultiProblemStatus.vue'),
+          meta: {
+            title: '多选题'
+          }
+        },
+        {
+          path: '/ssingleproblem/:id',
+          component: () => import('../components/page/Student/SingleProblem.vue'),
+          meta: {
+            title: '单选题'
+          }
+        },
+        {
+          path: '/storfproblem/:id',
+          component: () => import('../components/page/Student/YesOrNoProblem.vue'),
+          meta: {
+            title: '多选题'
+          }
+        },
         {
           path: '/smultiproblem/:id',
           component: () => import('../components/page/Student/MultiProblem.vue'),

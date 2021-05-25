@@ -42,6 +42,13 @@
           label="名称">
         </el-table-column>
         <el-table-column
+          label="开始日期">
+          <template slot-scope="scope">
+            <i class="el-icon-time"></i>
+            <span style="margin-left: 10px">{{ scope.row.starttime}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
         label="截止日期">
           <template slot-scope="scope">
             <i class="el-icon-time"></i>

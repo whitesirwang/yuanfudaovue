@@ -14,11 +14,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-tabs v-model="tab.courseDetail">
-      <el-tab-pane label="课件" name="课件"></el-tab-pane>
-      <el-tab-pane label="视频" name="视频"></el-tab-pane>
-    </el-tabs>
-    <el-card style="margin-bottom: 20px" :hidden="tab.courseDetail === '课件'">
+    <el-card style="margin-bottom: 20px">
       <h2 class="user-title">教学视频上传</h2>
       <el-form label-position="top">
         <el-form-item label="教学视频上传">
@@ -49,7 +45,7 @@
         </el-form-item>
       </el-form>
     </el-card>
-    <el-card :hidden="tab.courseDetail === '视频'">
+    <el-card style="margin-bottom: 20px">
       <h2 class="user-title">课件上传</h2>
       <el-form label-position="top">
         <el-form-item label="课件上传" >
@@ -80,6 +76,66 @@
         </el-form-item>
       </el-form>
     </el-card>
+    <el-card>
+      <h2 class="user-title">添加作业</h2>
+      <el-button type="primary" @click="dialogFormVisible = true">添加</el-button>
+      <el-dialog title="添加作业" :visible.sync="dialogFormVisible">
+        <el-form :model="homework">
+          <el-form-item label="标题" required>
+            <el-input v-model="homework.title"></el-input>
+          </el-form-item>
+          <el-form-item label="开始日期" required>
+            <el-date-picker
+              value-format="yyyy-MM-dd HH:mm:ss"
+              v-model="homework.starttime"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="截止日期" required>
+            <el-date-picker
+              value-format="yyyy-MM-dd HH:mm:ss"
+              v-model="homework.ddl"
+              type="date"
+              placeholder="选择日期">
+            </el-date-picker>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="addHomework">确 定</el-button>
+        </div>
+      </el-dialog>
+      <el-table
+        :data="myhomework"
+        border
+        style="width: 100%">
+        <el-table-column
+          prop="title"
+          label="名称">
+        </el-table-column>
+        <el-table-column
+          label="开始日期">
+          <template slot-scope="scope">
+            <i class="el-icon-time"></i>
+            <span style="margin-left: 10px">{{ scope.row.starttime }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="截止日期">
+          <template slot-scope="scope">
+            <i class="el-icon-time"></i>
+            <span style="margin-left: 10px">{{ scope.row.ddl }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" @click="editHomework(scope.row)">编辑作业</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
   </div>
 </template>
 
@@ -88,6 +144,11 @@ export default {
   name: "EditCourseDetail",
   data() {
     return {
+      dialogFormVisible: false,
+      myhomework: [],
+      homework: {
+
+      },
       tab: {
         courseDetail: ""
       },
@@ -115,9 +176,60 @@ export default {
     this.getbase();
     this.getkejian();
     this.getvedio();
-
+    this.getHomework();
   },
   methods: {
+    editHomework(row) {
+      this.$router.push("/tedithomework/" + row.id);
+    },
+    getHomework() {
+      this.$axios({
+        method: 'get',
+        url:this.HOME + '/homework/gethomework/'+ this.$route.params.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          if (response.data.result.ans.homework !== null) {
+            this.myhomework = [response.data.result.ans.homework];
+          }
+        } else {
+          this.$message.error(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
+    addHomework() {
+      this.$axios({
+        method: 'post',
+        url:this.HOME + '/homework/addhomework',
+        data:JSON.stringify({
+          title: this.homework.title,
+          ddl: this.homework.ddl,
+          cdid: this.$route.params.id,
+          starttime: this.homework.starttime
+        }),
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.$message({
+            message: '上传成功！',
+            type: 'success'
+          });
+          this.dialogFormVisible = false;
+          this.homework = {};
+        } else {
+          this.$message.error(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
     deleteVedio() {
       this.$confirm('是否要删除视频?', '提示', {
         confirmButtonText: '确定',

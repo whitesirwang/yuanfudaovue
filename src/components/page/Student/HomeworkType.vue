@@ -21,10 +21,13 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button @click="seeTypeDetail(scope.row)" type="text" size="medium">查看题目</el-button>
+            <el-button @click="seeTypeDetail(scope.row)" type="text" size="medium">做题</el-button>
+            <el-button type="text" size="medium" @click="seeMyAns(scope.row)">查看我的解答</el-button>
+            <el-button type="text" size="medium">查看答案</el-button>
           </template>
         </el-table-column>
       </el-table>
+      <el-button type="primary" @click="doneHomework">完成作业</el-button>
     </el-card>
   </div>
 </template>
@@ -38,9 +41,39 @@ export default {
     }
   },
   methods: {
+    seeMyAns(row) {
+      if (row.type === 1) {
+        this.$router.push("/smultiproblemstatus/" + this.$route.params.id);
+      } else if (row.type === 2) {
+        this.$router.push("/storfproblemstatus/" + this.$route.params.id);
+      } else {
+        this.$router.push("/ssingleproblemstatus/" + this.$route.params.id);
+      }
+    },
+    doneHomework() {
+      this.$axios({
+        method: 'post',
+        url:this.HOME + '/homeworkcomplete/addcomplete/' + this.$route.params.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.$message.success("提交成功");
+        } else {
+          alert(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
     seeTypeDetail(row) {
       if (row.type === 1) {
         this.$router.push("/smultiproblem/" + this.$route.params.id);
+      } else if (row.type === 2) {
+        this.$router.push("/storfproblem/" + this.$route.params.id);
+      } else {
+        this.$router.push("/ssingleproblem/" + this.$route.params.id);
       }
     },
     getHomeworkType() {
