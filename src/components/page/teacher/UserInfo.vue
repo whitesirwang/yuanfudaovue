@@ -19,8 +19,8 @@
           <el-form-item label="自我介绍">
             <el-input type="textarea" v-model="form.introduction"></el-input>
           </el-form-item>
-          <el-form-item label="评分">
-            {{form.score}}
+          <el-form-item label="好评率">
+            <el-progress type="circle" :percentage="Math.floor(form.rate * 100)"></el-progress>
           </el-form-item>
           <el-form-item label="头像上传">
             <el-upload
@@ -83,7 +83,11 @@ export default {
       }).then((response) =>{
         if (response.data.status === 200) {
           this.form = response.data.result;
-          this.img.url = 'http://localhost:8004/vedios/' + response.data.result.avatorname;
+          if (response.data.result.avatorname !== null) {
+            this.img.url = 'http://localhost:8004/vedios/'+response.data.result.avatorname;
+          }else {
+            this.img.url = 'static/error-page.png'
+          }
         } else {
           this.$message.error(response.data.message);
         }

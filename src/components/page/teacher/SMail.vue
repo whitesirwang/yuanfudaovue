@@ -36,7 +36,7 @@
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="text" @click="seeMail(scope.row)">查看邮件</el-button>
-          <el-button type="text" @click="dialogFormVisible = true">回复</el-button>
+          <el-button type="text" @click="handleDigClick(scope.row)">回复</el-button>
           <el-dialog title="回复消息" :visible.sync="dialogFormVisible">
             <el-form :model="sendMail">
               <el-form-item label="标题">
@@ -48,7 +48,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="dialogFormVisible = false">取 消</el-button>
-              <el-button type="primary" @click="sedMail(scope.row)">确 定</el-button>
+              <el-button type="primary" @click="sedMail">确 定</el-button>
             </div>
           </el-dialog>
         </template>
@@ -88,6 +88,9 @@ export default {
   name: "TMail",
   data() {
     return {
+      row: {
+
+      },
       activeName: "已发送",
       dialogFormVisible: false,
       sendMail: {
@@ -107,7 +110,11 @@ export default {
     this.getMail(1, 5, 0);
   },
   methods: {
-    sedMail(row) {
+    handleDigClick(row) {
+      this.dialogFormVisible = true;
+      this.row = row;
+    },
+    sedMail() {
       this.$confirm('是否要回复？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -119,8 +126,8 @@ export default {
           data:JSON.stringify({
             content: this.sendMail.content,
             title: this.sendMail.title,
-            reply: row.id,
-            to: row.f
+            reply: this.row.id,
+            to: this.row.f
           }),
           headers: {
             'accessToken': localStorage.getItem("accessToken"),

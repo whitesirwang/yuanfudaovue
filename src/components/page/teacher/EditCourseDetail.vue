@@ -132,6 +132,7 @@
           label="操作">
           <template slot-scope="scope">
             <el-button type="text" @click="editHomework(scope.row)">编辑作业</el-button>
+            <el-button type="text" @click="seeStudentStatus(scope.row)">查看学生情况</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -179,6 +180,9 @@ export default {
     this.getHomework();
   },
   methods: {
+    seeStudentStatus(row) {
+      this.$router.push("/thomeworkstudents/" + row.id);
+    },
     editHomework(row) {
       this.$router.push("/tedithomework/" + row.id);
     },

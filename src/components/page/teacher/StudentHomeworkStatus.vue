@@ -1,29 +1,31 @@
 <template>
   <div>
     <el-card>
-      <h2 class="user-title">作业大纲</h2>
+      <h2 class="user-title">选课学生</h2>
       <el-table
         :data="homeworktype"
         border
-        style="width: 100%">
+        style="width: 100%;">
         <el-table-column
           prop="typename"
           label="类型">
         </el-table-column>
         <el-table-column
-        prop="cnt"
-        label="题目总数">
+          prop="cnt"
+          label="题目总数">
         </el-table-column>
         <el-table-column
           prop="total"
           label="总分值">
         </el-table-column>
         <el-table-column
+        prop="score"
+        label="得分">
+        </el-table-column>
+        <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button @click="seeTypeDetail(scope.row)" type="text" size="medium">做题</el-button>
-            <el-button type="text" size="medium" @click="seeMyAns(scope.row)">查看我的解答</el-button>
-            <el-button type="text" size="medium">查看答案</el-button>
+            <el-button @click="seeTypeDetail(scope.row)" type="text" size="medium">查看答题情况</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -33,35 +35,30 @@
 
 <script>
 export default {
-  name: "HomeworkType",
+  name: "StudentHomeworkStatus",
   data() {
     return {
-      homeworktype: []
+      homeworktype: [],
     }
   },
   methods: {
-    seeMyAns(row) {
-      if (row.type === 1) {
-        this.$router.push("/smultiproblemstatus/" + this.$route.params.id);
-      } else if (row.type === 2) {
-        this.$router.push("/storfproblemstatus/" + this.$route.params.id);
-      } else {
-        this.$router.push("/ssingleproblemstatus/" + this.$route.params.id);
-      }
-    },
     seeTypeDetail(row) {
-      if (row.type === 1) {
-        this.$router.push("/smultiproblem/" + this.$route.params.id);
-      } else if (row.type === 2) {
-        this.$router.push("/storfproblem/" + this.$route.params.id);
+      if (row.type === 0) {
+        this.$router.push("/tsigproblemstatus/" + this.$route.params.sid + "/" + this.$route.params.hid);
+      } else if (row.type === 1) {
+        this.$router.push("/tmultiproblemstatus/" + this.$route.params.sid + "/" + this.$route.params.hid);
       } else {
-        this.$router.push("/ssingleproblem/" + this.$route.params.id);
+        this.$router.push("/ttorfproblemstatus/" + this.$route.params.sid + "/" + this.$route.params.hid);
       }
     },
-    getHomeworkType() {
+    getHType() {
       this.$axios({
         method: 'get',
-        url:this.HOME + '/homeworkdetail/gethomeworktype/'+ this.$route.params.id,
+        url:this.HOME + '/studenthomework/getscore',
+        params: {
+          sid : this.$route.params.sid,
+          hid : this.$route.params.hid
+        },
         headers: {
           'accessToken': localStorage.getItem("accessToken"),
         }
@@ -74,16 +71,16 @@ export default {
       }).catch((error) => {
         console.log(error)
       });
-    }
+    },
   },
   created() {
-    this.getHomeworkType();
+    this.getHType();
   },
   watch: {
     $route(to, from) {
-      var pat = /^\/shomeworktype\/.*$/;
+      var pat = /^\/tstudenthomeworkstatus\/.*$/;
       if (pat.test(to.path)) {
-        this.getHomeworkType();
+        this.getHType();
       }
     }
   }

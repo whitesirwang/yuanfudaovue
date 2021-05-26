@@ -17,6 +17,51 @@ export default new Router({
       },
       children: [
         {
+          path: '/ttorfproblemstatus/:sid/:hid',
+          component: () => import('../components/page/teacher/YesOrNoProblemStatus.vue'),
+          meta: {
+            title: '单选题'
+          }
+        },
+        {
+          path: '/tsigproblemstatus/:sid/:hid',
+          component: () => import('../components/page/teacher/SingleProblemStatus.vue'),
+          meta: {
+            title: '单选题'
+          }
+        },
+        {
+          path: '/tmultiproblemstatus/:sid/:hid',
+          component: () => import('../components/page/teacher/MultiProblemStatus.vue'),
+          meta: {
+            title: '多选题'
+          }
+        },
+        {
+          path: '/tstudenthomeworkstatus/:sid/:hid',
+          name: '作业成绩',
+          component: () => import('../components/page/Teacher/StudentHomeworkStatus.vue'),
+          meta: {
+            title: '作业成绩'
+          }
+        },
+        {
+          path: '/thomeworkstudents/:cid',
+          name: '学生作业情况',
+          component: () => import('../components/page/Teacher/HomeWorkStudents.vue'),
+          meta: {
+            title: '学生作业情况'
+          }
+        },
+        {
+          path: '/tcoursestudents/:id',
+          name: '选课学生',
+          component: () => import('../components/page/Teacher/CourseStudents.vue'),
+          meta: {
+            title: '选课学生'
+          }
+        },
+        {
           path: '/tedithomework/:id',
           name: '编辑课后作业',
           component: () => import('../components/page/Teacher/EditHomework.vue'),

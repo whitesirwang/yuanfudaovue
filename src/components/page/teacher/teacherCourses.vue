@@ -40,6 +40,7 @@
           label="操作">
           <template slot-scope="scope">
             <el-button @click="editCourse(scope.row)" type="text" size="medium">编辑课程</el-button>
+            <el-button @click="seeStudents(scope.row)" type="text" size="medium">查看学生</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -69,6 +70,9 @@ export default {
     this.getCourses(1, 5, this.tab.type);
   },
   methods: {
+    seeStudents(row) {
+      this.$router.push("/tcoursestudents/" + row.id);
+    },
     getCourses(cur, size, type) {
       this.$axios({
         method:'post',
