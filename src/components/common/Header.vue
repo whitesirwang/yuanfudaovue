@@ -63,7 +63,7 @@
           if (localStorage.getItem("type") === '0') { //如果是老师
             this.$router.push('/tmain')
           } else if (localStorage.getItem("type") === '1') {
-            this.$router.push('/pmain')
+            this.$router.push('/smain')
           }
         }
       }

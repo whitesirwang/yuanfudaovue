@@ -1,5 +1,30 @@
 <template>
   <div>
+    <el-card style="margin-bottom: 20px">
+      <h2 class="user-title">作业信息</h2>
+      <el-form :model="homework">
+        <el-form-item label="标题" style="width: 1000px">
+          <el-input v-model="homework.title"></el-input>
+        </el-form-item>
+        <el-form-item label="开始日期">
+          <el-date-picker
+            value-format="yyyy-MM-dd"
+            v-model="homework.starttime"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="截止日期">
+          <el-date-picker
+            value-format="yyyy-MM-dd"
+            v-model="homework.ddl"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+      </el-form>
+      <el-button type="primary" @click="addHomework">确定修改</el-button>
+    </el-card>
     <el-card>
       <h2 class="user-title">作业大纲</h2>
       <el-row>
@@ -120,7 +145,7 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button @click="seeTypeDetail(scope.row)" type="text" size="medium">查看题目</el-button>
+            <el-button @click="seeTypeDetail(scope.row)" type="text" size="medium">编辑题目</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -133,6 +158,9 @@ export default {
   name: "EditHomework",
   data() {
     return {
+      homework: {
+
+      },
       homeworktype: [],
       dialogFormVisible1: false,
       dialogFormVisible2: false,
@@ -172,6 +200,42 @@ export default {
     }
   },
   methods: {
+    addHomework() {
+      this.$axios({
+        method: 'put',
+        url:this.HOME + '/homework/updatehomework',
+        data: JSON.stringify(this.homework),
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.$message.success("更改成功");
+        } else {
+          alert(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
+    getHomework() {
+      this.$axios({
+        method: 'get',
+        url:this.HOME + '/homework/gethomeworkinfo/'+ this.$route.params.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+            this.homework = response.data.result.ans;
+        } else {
+          this.$message.error(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
     addTorFProblem(ruleFrom) {
       this.$refs[ruleFrom].validate((valid) => {
         if (valid) {
@@ -287,7 +351,13 @@ export default {
       });
     },
     seeTypeDetail(row) {
-
+      if (row.type === 0) {
+        this.$router.push("/teditsig/" + this.$route.params.id);
+      } else if (row.type === 1) {
+        this.$router.push("/teditmulti/" + this.$route.params.id);
+      } else {
+        this.$router.push("/tedittorf/" + this.$route.params.id);
+      }
     },
     getHomeworkType() {
       this.$axios({
@@ -309,12 +379,14 @@ export default {
   },
   created() {
     this.getHomeworkType();
+    this.getHomework();
   },
   watch: {
     $route(to, from) {
       var pat = /^\/tedithomework\/.*$/;
       if (pat.test(to.path)) {
         this.getHomeworkType();
+        this.getHomework();
       }
     }
   }

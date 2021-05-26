@@ -70,6 +70,30 @@ export default new Router({
           }
         },
         {
+          path: '/tedittorf/:id',
+          name: '编辑是非题',
+          component: () => import('../components/page/Teacher/EditYesOrNoProblems.vue'),
+          meta: {
+            title: '编辑是非题'
+          }
+        },
+        {
+          path: '/teditmulti/:id',
+          name: '编辑多选题',
+          component: () => import('../components/page/Teacher/EditMultiProblems.vue'),
+          meta: {
+            title: '编辑多选题'
+          }
+        },
+        {
+          path: '/teditsig/:id',
+          name: '编辑单选题',
+          component: () => import('../components/page/Teacher/EditSigProblems.vue'),
+          meta: {
+            title: '编辑单选题'
+          }
+        },
+        {
           path: '/tmail',
           name: '邮件',
           component: () => import('../components/page/Teacher/SMail.vue'),
@@ -133,6 +157,14 @@ export default new Router({
             title: '编辑课程'
           }
         },
+        {
+          path: '/tstudentinfo/:id',
+          name: '学生信息',
+          component: () => import('../components/page/teacher/StudentInfo.vue'),
+          meta: {
+            title: '学生信息'
+          }
+        }
       ]
     },
     {
@@ -142,6 +174,14 @@ export default new Router({
         title: '学生公共部分'
       },
       children: [
+        {
+          path: '/smain',
+          name: '学生信息修改',
+          component: () => import('../components/page/student/UserInfo.vue'),
+          meta: {
+            title: '学生个人信息'
+          }
+        },
         {
           path: '/storfproblemstatus/:id',
           component: () => import('../components/page/Student/YesOrNoProblemStatus.vue'),

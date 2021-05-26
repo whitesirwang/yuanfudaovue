@@ -3,59 +3,66 @@
     <el-card>
       <h2 class="user-title">判断题</h2>
       <el-card v-for="(o, index) in problems" :key="index">
-        <el-form ref="form" label-width="80px">
-          <el-form-item :label="index + 1 + '、'" label-width="20px">
-            <span style="font-size: large">{{o.homeworkdetail.content + '(' + o.homeworkdetail.score + '分)'}}</span>
+        <el-form ref="o" label-width="80px" :model="o">
+          <el-form-item label="题目" prop="content" label-width="60px" required>
+            <el-input type="textarea" v-model="o.content"></el-input>
           </el-form-item>
-          <el-form-item label-width="20px">
-            <el-radio-group v-model="o.ans" >
+          <el-form-item label="分值"  prop="score" label-width="60px" required>
+            <el-input-number v-model="o.score" :min="1" :max="10"></el-input-number>
+          </el-form-item>
+          <el-form-item label="答案"  prop="ans" label-width="60px" required>
+            <el-radio-group v-model="o.ans">
               <el-radio label="T"></el-radio>
               <el-radio label="F"></el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
+        <el-button type="primary" @click="deleteProblem(o)">删除此题</el-button>
+        <el-button type="primary" @click="updateProblem(o)">保存此题编辑</el-button>
       </el-card>
-      <el-button type="primary" @click="submitproblem">提交答案</el-button>
     </el-card>
   </div>
 </template>
 
 <script>
 export default {
-  name: "YesOrNoProblemStatus",
+  name: "EditYesOrNoProblems",
   data() {
     return {
-      problems:[{
-        content: "第一题答案是A",
-        A: "AA",
-        B: "BB",
-        C: "CC",
-        D: "DD",
-      }]
+      problems:[]
     }
   },
   methods: {
-    submitproblem() {
-      var pdata = [];
-      let len = this.problems.length;
-      for (let i = 0; i < len; ++i) {
-        var ins = {
-          ans : this.problems[i]['ans'],
-          hdid: this.problems[i]['homeworkdetail']['id'],
-          shid: this.problems[i]['shid']
-        }
-        pdata.push(ins);
-      }
+    updateProblem(o) {
       this.$axios({
-        method: 'post',
-        url:this.HOME + '/studenthomework/addans',
-        data: pdata,
+        method: 'put',
+        url:this.HOME + '/homeworkdetail/updatehomeworkdetail',
+        data: JSON.stringify(o),
         headers: {
           'accessToken': localStorage.getItem("accessToken"),
+          'Content-Type': 'application/json'
         }
       }).then((response) =>{
         if (response.data.status === 200) {
-          this.$message.success("提交成功");
+          this.$message.success("更改成功");
+        } else {
+          alert(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
+    deleteProblem(o) {
+      this.$axios({
+        method: 'delete',
+        url:this.HOME + '/homeworkdetail/deletehomeworkdetail/' + o.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.$message.success("删除成功");
         } else {
           alert(response.data.message);
         }
@@ -66,11 +73,11 @@ export default {
     getProblems() {
       this.$axios({
         method: 'get',
-        url:this.HOME + '/studenthomework/getans',
+        url:this.HOME + '/homeworkdetail/gethomeworktypedetail',
         params: {
           type: 2,
           hid: this.$route.params.id,
-          seeans: 0
+          cansee: 1
         },
         headers: {
           'accessToken': localStorage.getItem("accessToken"),
@@ -91,7 +98,7 @@ export default {
   },
   watch: {
     $route(to, from) {
-      var pat = /^\/storfproblemstatus\/.*$/;
+      var pat = /^\/tedittorf\/.*$/;
       if (pat.test(to.path)) {
         this.problems = [];
         this.getProblems();

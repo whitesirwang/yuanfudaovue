@@ -40,7 +40,7 @@
           </el-form>
         </el-col>
         <el-col span="12">
-          <img :src="img.url" width="100%" height="500">
+          <img :src="img.url" width="100%" height="600">
         </el-col>
       </el-row>
     </el-card>

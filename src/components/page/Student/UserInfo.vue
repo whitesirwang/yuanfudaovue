@@ -5,22 +5,21 @@
       <el-col span="12">
         <el-form ref="form" :model="form" label-width="40px" label-position="top">
           <el-form-item label="姓名">
-            <el-input v-model="form.name" disabled></el-input>
+            <el-input v-model="form.student.name" disabled></el-input>
           </el-form-item>
           <el-form-item label="性别">
-            <el-input v-model="form.gender" disabled></el-input>
+            <el-input v-model="form.student.gender" disabled></el-input>
           </el-form-item>
-          <el-form-item label="QQ邮箱">
-            <el-input v-model="form.email" show-word-limit maxlength="10" style="width: 600px"></el-input>@qq.com
+          <el-form-item label="类型" prop="type">
+            <el-select v-model="form.student.type">
+              <el-option label="小学" value="小学"></el-option>
+              <el-option label="初中" value="初中"></el-option>
+              <el-option label="高中" value="高中"></el-option>
+              <el-option label="大学" value="大学"></el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="年龄">
-            <el-input v-model="form.age" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="自我介绍">
-            <el-input type="textarea" show-word-limit maxlength="30" v-model="form.introduction"></el-input>
-          </el-form-item>
-          <el-form-item label="好评率">
-            <el-progress type="circle" :percentage="Math.floor(form.rate * 100)"></el-progress>
+          <el-form-item label="QQ邮箱" prop="mail">
+            <el-input v-model="form.user.email" show-word-limit maxlength="10" style="width: 600px"></el-input>@qq.com
           </el-form-item>
           <el-form-item label="头像上传">
             <el-upload
@@ -34,7 +33,7 @@
             </el-upload>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="updateUser">提交修改</el-button>
+            <el-button type="primary" @click="updateUser()">提交修改</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -48,7 +47,7 @@
 
 <script>
 export default {
-  name: "TeacherInfo",
+  name: "StudentUserInfo",
   data() {
     return {
       upload : {
@@ -67,9 +66,6 @@ export default {
         gender: '',
         avatorname: ''
       },
-      formRules: [
-
-      ]
     }
   },
   created() {
@@ -79,15 +75,18 @@ export default {
     getUser() {
       this.$axios({
         method:'get',
-        url:this.HOME + '/teacher/' + localStorage.getItem("username"),
+        url:this.HOME + '/student/info',
+        params: {
+          id: -1,
+        },
         headers: {
           'accessToken': localStorage.getItem("accessToken"),
         }
       }).then((response) =>{
         if (response.data.status === 200) {
-          this.form = response.data.result;
-          if (response.data.result.avatorname !== null) {
-            this.img.url = 'http://localhost:8004/vedios/'+response.data.result.avatorname;
+          this.form = response.data.result.ans;
+          if (response.data.result.ans.avatorname !== null) {
+            this.img.url = 'http://localhost:8004/vedios/'+response.data.result.ans.avatorname;
           }else {
             this.img.url = 'static/error-page.png'
           }
@@ -99,19 +98,24 @@ export default {
       });
     },
     handleSuccess(response, file, fileList) {
-        if (response.status === 200) {
-          this.img.url = 'http://localhost:8004/vedios/' + response.result.name;
-          this.form.avatorname = response.result.name;
-          this.updateUser();
-        } else {
-          this.$message.error(response.data.message);
-        }
+      if (response.status === 200) {
+        this.img.url = 'http://localhost:8004/vedios/' + response.result.name;
+        this.form.avatorname = response.result.name;
+        this.updateUser();
+      } else {
+        this.$message.error(response.data.message);
+      }
     },
     updateUser() {
+      var pdata = {
+        type: this.form.student.type,
+        email: this.form.user.email,
+        avatorname: this.form.avatorname
+      };
       this.$axios({
         method: 'put',
-        url:this.HOME + '/teacher/update',
-        data:JSON.stringify(this.form),
+        url:this.HOME + '/student/info',
+        data:JSON.stringify(pdata),
         headers: {
           'accessToken': localStorage.getItem("accessToken"),
           'Content-Type': 'application/json'
@@ -132,7 +136,7 @@ export default {
   },
   watch:{
     $route(to, from) {
-      var pat = /^\/tmain$/;
+      var pat = /^\/smain$/;
       if (pat.test(to.path)) {
         this.getUser();
       }

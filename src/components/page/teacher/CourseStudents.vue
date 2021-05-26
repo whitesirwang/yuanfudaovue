@@ -71,6 +71,9 @@ export default {
     }
   },
   methods: {
+    seeInfo(row) {
+      this.$router.push("/tstudentinfo/"+row.sid);
+    },
     handleDigClick(row) {
       this.dialogFormVisible = true;
       this.row = row;

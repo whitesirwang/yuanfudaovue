@@ -72,6 +72,9 @@ export default {
     }
   },
   methods: {
+    seeInfo(row) {
+      this.$router.push("/tstudentinfo/"+row.sid);
+    },
     seeScore(row) {
       this.$router.push("/tstudenthomeworkstatus/" + row.sid + "/" + this.$route.params.cid);
     },
