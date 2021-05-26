@@ -2,72 +2,51 @@
   <div>
     <el-card>
       <h2 class="user-title">单选题</h2>
-        <el-card v-for="(o, index) in problems" :key="index">
-          <el-form ref="form" label-width="80px">
-            <el-form-item :label="index + 1">
-              <span style="font-size: large">{{o.content + '(' + o.score + '分)'}}</span>
-            </el-form-item>
-            <el-form-item>
-              <el-radio v-model="o.choice" label="A">{{'A、' + o.a}}</el-radio>
-              <el-radio v-model="o.choice" label="B">{{'B、' + o.b}}</el-radio>
-              <el-radio v-model="o.choice" label="C">{{'C、' + o.c}}</el-radio>
-              <el-radio v-model="o.choice" label="D">{{'D、' + o.d}}</el-radio>
-            </el-form-item>
-          </el-form>
-        </el-card>
-        <el-button type="primary" @click="submitproblem">提交答案</el-button>
+      <el-card v-for="(o, index) in problems" :key="index">
+        <el-form ref="form" label-width="80px">
+          <el-form-item :label="index + 1">
+            <span style="font-size: large">{{o.homeworkdetail.content + '(' + o.homeworkdetail.score + '分)'}}</span>
+            <i v-bind:class="{'el-icon-success' : o.torf === 1, 'el-icon-error' : o.torf === 0}"
+               style="font-size: x-large" v-bind:style=" {'color' : o.torf === 1 ? 'green' : 'red'}"></i>
+            <br><span style="font-size: large">{{'答案 : ' + o.homeworkdetail.ans}}</span>
+          </el-form-item>
+          <el-form-item>
+            <el-radio-group v-model="o.ans">
+              <el-radio label="A">{{o.homeworkdetail.a}}</el-radio>
+              <el-radio label="B">{{o.homeworkdetail.b}}</el-radio>
+              <el-radio label="C">{{o.homeworkdetail.c}}</el-radio>
+              <el-radio label="D">{{o.homeworkdetail.d}}</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-form>
+      </el-card>
     </el-card>
   </div>
 </template>
 
 <script>
 export default {
-  name: "SingleProblem",
+  name: "SingleProblemStatus",
   data() {
     return {
       problems:[{
         content: "第一题答案是A",
-        choice: ''
+        A: "AA",
+        B: "BB",
+        C: "CC",
+        D: "DD",
       }]
     }
   },
   methods: {
-    submitproblem() {
-      var pdata = [];
-      let len = this.problems.length;
-      for (let i = 0; i < len; ++i) {
-        var x = this.problems[i];
-        var ins = {
-          ans : x.choice,
-          hdid: this.problems[i]['id']
-        }
-        pdata.push(ins);
-      }
-      this.$axios({
-        method: 'post',
-        url:this.HOME + '/studenthomework/addans',
-        data: pdata,
-        headers: {
-          'accessToken': localStorage.getItem("accessToken"),
-        }
-      }).then((response) =>{
-        if (response.data.status === 200) {
-          this.$message.success("提交成功");
-        } else {
-          alert(response.data.message);
-        }
-      }).catch((error) => {
-        console.log(error)
-      });
-    },
     getProblems() {
       this.$axios({
         method: 'get',
-        url:this.HOME + '/homeworkdetail/gethomeworktypedetail',
+        url:this.HOME + '/studenthomework/getans',
         params: {
           type: 0,
           hid: this.$route.params.id,
-          cansee: 0
+          seeans: 1
         },
         headers: {
           'accessToken': localStorage.getItem("accessToken"),
@@ -81,7 +60,7 @@ export default {
       }).catch((error) => {
         console.log(error)
       });
-    },
+    }
   },
   created() {
     this.getProblems();

@@ -21,9 +21,8 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button @click="seeTypeDetail(scope.row)" type="text" size="medium">做题</el-button>
-            <el-button type="text" size="medium" @click="seeMyAns(scope.row)">查看我的解答</el-button>
-            <el-button type="text" size="medium">查看答案</el-button>
+            <el-button type="text" size="medium" @click="seeMyAns(scope.row)">查看题目</el-button>
+            <el-button type="text" size="medium" @click="seeResult(scope.row)">查看答案</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -49,7 +48,7 @@ export default {
         this.$router.push("/ssingleproblemstatus/" + this.$route.params.id);
       }
     },
-    seeTypeDetail(row) {
+    seeResult(row) {
       if (row.type === 1) {
         this.$router.push("/smultiproblem/" + this.$route.params.id);
       } else if (row.type === 2) {

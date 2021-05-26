@@ -2,27 +2,31 @@
   <div>
     <el-card>
       <h2 class="user-title">多选题</h2>
-        <el-card v-for="(o, index) in problems" :key="index">
-          <el-form ref="form" label-width="80px">
-            <el-form-item :label="index + 1">
-              <span style="font-size: large">{{o.content + '(' + o.score + '分)'}}</span>
-            </el-form-item>
-            <el-form-item>
-              <el-checkbox :label="'A、' + o.a" v-model="o.pa"></el-checkbox>
-              <el-checkbox :label="'B、' + o.b" v-model="o.pb"></el-checkbox>
-              <el-checkbox :label="'C、' + o.c" v-model="o.pc"></el-checkbox>
-              <el-checkbox :label="'D、' + o.d" v-model="o.pd"></el-checkbox>
-            </el-form-item>
-          </el-form>
-        </el-card>
-        <el-button type="primary" @click="submitproblem">提交答案</el-button>
+      <el-card v-for="(o, index) in problems" :key="index">
+        <el-form ref="form" label-width="80px">
+          <el-form-item :label="index + 1">
+            <span style="font-size: large">{{o.homeworkdetail.content + '(' + o.homeworkdetail.score + '分)'}}</span>
+            <i v-bind:class="{'el-icon-success' : o.torf === 1, 'el-icon-error' : o.torf === 0}"
+               style="font-size: x-large" v-bind:style=" {'color' : o.torf === 1 ? 'green' : 'red'}"></i>
+            <br><span style="font-size: large">{{'答案 :' + o.homeworkdetail.ans}}</span>
+          </el-form-item>
+          <el-form-item>
+            <el-checkbox-group v-model="o.ans">
+              <el-checkbox label="A" >{{o.homeworkdetail.a}}</el-checkbox>
+              <el-checkbox label="B" >{{o.homeworkdetail.b}}</el-checkbox>
+              <el-checkbox label="C" >{{o.homeworkdetail.c}}</el-checkbox>
+              <el-checkbox label="D">{{o.homeworkdetail.d}}</el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
+        </el-form>
+      </el-card>
     </el-card>
   </div>
 </template>
 
 <script>
 export default {
-  name: "MultiProblem",
+  name: "sMultiProblem",
   data() {
     return {
       problems:[{
@@ -31,66 +35,32 @@ export default {
         B: "BB",
         C: "CC",
         D: "DD",
-      }]
+      }],
     }
   },
   methods: {
     getProblems() {
       this.$axios({
         method: 'get',
-        url:this.HOME + '/homeworkdetail/gethomeworktypedetail',
+        url:this.HOME + '/studenthomework/getans',
         params: {
           type: 1,
           hid: this.$route.params.id,
-          cansee: 0
+          seeans: 1
         },
         headers: {
           'accessToken': localStorage.getItem("accessToken"),
         }
       }).then((response) =>{
         if (response.data.status === 200) {
-          this.problems = response.data.result.ans;
-        } else {
-          alert(response.data.message);
-        }
-      }).catch((error) => {
-        console.log(error)
-      });
-    },
-    submitproblem() {
-      var pdata = [];
-      let len = this.problems.length;
-      for (let i = 0; i < len; ++i) {
-        var x = this.problems[i];
-        var ans = "";
-        if (x['pa'] !== undefined) {
-          ans += "A";
-        }
-        if (x['pb'] !== undefined) {
-          ans += "B";
-        }
-        if (x['pc'] !== undefined) {
-          ans += "C";
-        }
-        if (x['pd'] !== undefined) {
-          ans += "D";
-        }
-        var ins = {
-          ans : ans,
-          hdid: this.problems[i]['id']
-        }
-        pdata.push(ins);
-      }
-      this.$axios({
-        method: 'post',
-        url:this.HOME + '/studenthomework/addans',
-        data: pdata,
-        headers: {
-          'accessToken': localStorage.getItem("accessToken"),
-        }
-      }).then((response) =>{
-        if (response.data.status === 200) {
-          this.$message.success("提交成功");
+          let ret = response.data.result.ans;
+          for (let i = 0; i < ret.length; ++i) {
+            let str = ret[i]['ans'];
+            if (str !== undefined) {
+              ret[i]['ans'] = str.split('');
+            }
+          }
+          this.problems = ret;
         } else {
           alert(response.data.message);
         }

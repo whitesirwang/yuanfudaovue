@@ -174,7 +174,7 @@ export default new Router({
           path: '/storfproblem/:id',
           component: () => import('../components/page/Student/YesOrNoProblem.vue'),
           meta: {
-            title: '多选题'
+            title: '是非题'
           }
         },
         {

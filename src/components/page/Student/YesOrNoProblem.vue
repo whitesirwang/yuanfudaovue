@@ -1,71 +1,50 @@
 <template>
   <div>
     <el-card>
-      <h2 class="user-title">是非题</h2>
+      <h2 class="user-title">判断题</h2>
       <el-card v-for="(o, index) in problems" :key="index">
         <el-form ref="form" label-width="80px">
           <el-form-item :label="index + 1">
-            <span style="font-size: large">{{o.content + '(' + o.score + '分)'}}</span>
+            <span style="font-size: large">{{o.homeworkdetail.content + '(' + o.homeworkdetail.score + '分)'}}</span>
+            <i v-bind:class="{'el-icon-success' : o.torf === 1, 'el-icon-error' : o.torf === 0}"
+               style="font-size: x-large" v-bind:style=" {'color' : o.torf === 1 ? 'green' : 'red'}"></i>
+            <br><span style="font-size: large">{{'答案 :' + o.homeworkdetail.ans}}</span>
           </el-form-item>
           <el-form-item>
-            <el-radio v-model="o.torf" label="T">T</el-radio>
-            <el-radio v-model="o.torf" label="F">F</el-radio>
+            <el-radio-group v-model="o.ans">
+              <el-radio label="T"></el-radio>
+              <el-radio label="F"></el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-form>
       </el-card>
-      <el-button type="primary" @click="submitproblem">提交答案</el-button>
     </el-card>
   </div>
 </template>
 
 <script>
 export default {
-  name: "YesOrNoProblem",
+  name: "SYesOrNoProblemAns",
   data() {
     return {
       problems:[{
         content: "第一题答案是A",
-        torf: 'T'
+        A: "AA",
+        B: "BB",
+        C: "CC",
+        D: "DD",
       }]
     }
   },
   methods: {
-    submitproblem() {
-      var pdata = [];
-      let len = this.problems.length;
-      for (let i = 0; i < len; ++i) {
-        var x = this.problems[i];
-        var ins = {
-          ans : x.torf,
-          hdid: this.problems[i]['id']
-        }
-        pdata.push(ins);
-      }
-      this.$axios({
-        method: 'post',
-        url:this.HOME + '/studenthomework/addans',
-        data: pdata,
-        headers: {
-          'accessToken': localStorage.getItem("accessToken"),
-        }
-      }).then((response) =>{
-        if (response.data.status === 200) {
-          this.$message.success("提交成功");
-        } else {
-          alert(response.data.message);
-        }
-      }).catch((error) => {
-        console.log(error)
-      });
-    },
     getProblems() {
       this.$axios({
         method: 'get',
-        url:this.HOME + '/homeworkdetail/gethomeworktypedetail',
+        url:this.HOME + '/studenthomework/getans',
         params: {
           type: 2,
           hid: this.$route.params.id,
-          cansee: 0
+          seeans: 1
         },
         headers: {
           'accessToken': localStorage.getItem("accessToken"),
@@ -88,7 +67,7 @@ export default {
     $route(to, from) {
       var pat = /^\/storfproblem\/.*$/;
       if (pat.test(to.path)) {
-        this.problems = null;
+        this.problems = [];
         this.getProblems();
       }
     }

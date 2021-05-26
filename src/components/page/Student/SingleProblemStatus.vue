@@ -9,14 +9,15 @@
           </el-form-item>
           <el-form-item>
             <el-radio-group v-model="o.ans">
-              <el-radio label="A" disabled>{{o.homeworkdetail.a}}</el-radio>
-              <el-radio label="B" disabled>{{o.homeworkdetail.b}}</el-radio>
-              <el-radio label="C" disabled>{{o.homeworkdetail.c}}</el-radio>
-              <el-radio label="D" disabled>{{o.homeworkdetail.d}}</el-radio>
+              <el-radio label="A">{{o.homeworkdetail.a}}</el-radio>
+              <el-radio label="B">{{o.homeworkdetail.b}}</el-radio>
+              <el-radio label="C">{{o.homeworkdetail.c}}</el-radio>
+              <el-radio label="D">{{o.homeworkdetail.d}}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
       </el-card>
+      <el-button type="primary" @click="submitproblem">提交答案</el-button>
     </el-card>
   </div>
 </template>
@@ -36,6 +37,34 @@ export default {
     }
   },
   methods: {
+    submitproblem() {
+      var pdata = [];
+      let len = this.problems.length;
+      for (let i = 0; i < len; ++i) {
+        var ins = {
+          ans : this.problems[i]['ans'],
+          hdid: this.problems[i]['homeworkdetail']['id'],
+          shid: this.problems[i]['shid']
+        }
+        pdata.push(ins);
+      }
+      this.$axios({
+        method: 'post',
+        url:this.HOME + '/studenthomework/addans',
+        data: pdata,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.$message.success("提交成功");
+        } else {
+          alert(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
     getProblems() {
       this.$axios({
         method: 'get',
@@ -43,6 +72,7 @@ export default {
         params: {
           type: 0,
           hid: this.$route.params.id,
+          seeans: 0
         },
         headers: {
           'accessToken': localStorage.getItem("accessToken"),
