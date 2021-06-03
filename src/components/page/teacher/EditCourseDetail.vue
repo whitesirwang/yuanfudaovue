@@ -132,6 +132,7 @@
           label="操作">
           <template slot-scope="scope">
             <el-button type="text" @click="editHomework(scope.row)">编辑作业</el-button>
+            <el-button type="text" @click="delHomework(scope.row)">删除作业</el-button>
             <el-button type="text" @click="seeStudentStatus(scope.row)">查看学生情况</el-button>
           </template>
         </el-table-column>
@@ -181,7 +182,7 @@ export default {
   },
   methods: {
     seeStudentStatus(row) {
-      this.$router.push("/thomeworkstudents/" + row.id);
+      this.$router.push("/thomeworkstudents/" + this.form.cid + "/" + row.id);
     },
     editHomework(row) {
       this.$router.push("/tedithomework/" + row.id);
@@ -198,6 +199,27 @@ export default {
           if (response.data.result.ans.homework !== null) {
             this.myhomework = [response.data.result.ans.homework];
           }
+        } else {
+          this.$message.error(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
+    delHomework(row) {
+      this.$axios({
+        method: 'delete',
+        url:this.HOME + '/homework/delhomework/' + row.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.$message({
+            message: '删除成功！',
+            type: 'success'
+          });
         } else {
           this.$message.error(response.data.message);
         }
@@ -443,6 +465,7 @@ export default {
         this.getbase();
         this.getvedio()
         this.getkejian();
+        this.getHomework();
       }
     }
   }

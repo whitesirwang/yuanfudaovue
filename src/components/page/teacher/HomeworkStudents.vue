@@ -76,7 +76,7 @@ export default {
       this.$router.push("/tstudentinfo/"+row.sid);
     },
     seeScore(row) {
-      this.$router.push("/tstudenthomeworkstatus/" + row.sid + "/" + this.$route.params.cid);
+      this.$router.push("/tstudenthomeworkstatus/" + row.sid + "/" + this.$route.params.id);
     },
     handleDigClick(row) {
       this.dialogFormVisible = true;

@@ -5,17 +5,17 @@
         @current-change="handleCurrentChange"
         :current-page.sync="comp.current"
         layout="total, prev, pager, next"
-        :page-size="5"
+        :page-size="6"
         :total="comp.total"
         style="margin-bottom: 0">
       </el-pagination>
       <el-input placeholder="搜索教师名称" v-model="search" style="width: 30%">
-        <el-button slot="append" icon="el-icon-search" @click="getUsers(1,5, search)"></el-button>
+        <el-button slot="append" icon="el-icon-search" @click="getUsers(1,6, search)"></el-button>
       </el-input>
     </div>
     <div>
       <el-row>
-        <el-col :span="8" v-for="(o, index) in teachers" :key="o" >
+        <el-col :span="7" v-for="(o, index) in teachers" :key="o" style="margin-right: 50px;margin-bottom: 20px">
           <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div slot="header" class="clearfix">
               <span>{{o.name}}</span>
@@ -53,7 +53,7 @@ export default {
     };
   },
   created() {
-    this.getUsers(1, 5);
+    this.getUsers(1, 6);
   },
   methods: {
     getTeacherDetails(row) {
@@ -85,7 +85,7 @@ export default {
       });
     },
     handleCurrentChange(val) {
-      this.getUsers(val, 5);
+      this.getUsers(val, 6);
     }
   }
 }

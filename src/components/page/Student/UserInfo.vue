@@ -5,10 +5,10 @@
       <el-col span="12">
         <el-form ref="form" :model="form" label-width="40px" label-position="top">
           <el-form-item label="姓名">
-            <el-input v-model="form.student.name" disabled></el-input>
+            <el-input v-model="form.student.name" disabled style="width: 600px"></el-input>
           </el-form-item>
           <el-form-item label="性别">
-            <el-input v-model="form.student.gender" disabled></el-input>
+            <el-input v-model="form.student.gender" disabled style="width: 600px"></el-input>
           </el-form-item>
           <el-form-item label="类型" prop="type">
             <el-select v-model="form.student.type">

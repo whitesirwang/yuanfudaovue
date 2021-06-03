@@ -15,7 +15,7 @@
         </el-form-item>
         <el-form-item>
           <el-button class="login-btn" type="primary" @click="submitForm('ruleForm')">登录</el-button>
-<!--          <p class="login-tip">提示：用户名和密可以随便填。</p>-->
+          <router-link to="/studentRegist">学生注册</router-link>
         </el-form-item>
       </el-form>
     </div>
@@ -29,8 +29,8 @@
     data: function(){
       return {
         ruleForm: {
-          username: 'admin',
-          password: '123123',
+          username: '',
+          password: '',
           type: '1',
         },
         rules: {
@@ -73,7 +73,7 @@
                 this.$router.push('/teacher');
               }
             } else {
-              this.$message.success(response.data.message);
+              this.$message.error(response.data.message);
             }
           }).catch((error) => {
             console.log(error)
@@ -153,7 +153,7 @@
     top: 50%;
     left: 50%;
     width: 320px;
-    height: 370px;
+    height: 450px;
     padding: 20px 35px;
     border: 1px solid #eee;
     margin: -185px 0 0 -160px;

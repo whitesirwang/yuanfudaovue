@@ -46,7 +46,7 @@ export default new Router({
           }
         },
         {
-          path: '/thomeworkstudents/:cid',
+          path: '/thomeworkstudents/:cid/:id',
           name: '学生作业情况',
           component: () => import('../components/page/Teacher/HomeWorkStudents.vue'),
           meta: {
@@ -164,7 +164,15 @@ export default new Router({
           meta: {
             title: '学生信息'
           }
-        }
+        },
+        {
+          path: '/ttongji/:id',
+          name: '统计',
+          component: () => import('../components/page/teacher/SigTongji.vue'),
+          meta: {
+            title: '统计'
+          }
+        },
       ]
     },
     {
@@ -293,6 +301,14 @@ export default new Router({
             title: '我选的课'
           }
         },
+        {
+          path: "/shotteacher",
+          name: '教师排行榜',
+          component: () => import('../components/page/Student/HotTeacher.vue'),
+          meta: {
+            title: '教师排行榜'
+          }
+        }
       ]
     },
     {
@@ -310,6 +326,10 @@ export default new Router({
     {
       path: '/test',
       component: () => import('../components/page/test.vue')
+    },
+    {
+      path: '/studentRegist',
+      component: () => import('../components/page/Student/Regist.vue'),
     }
   ]
 })

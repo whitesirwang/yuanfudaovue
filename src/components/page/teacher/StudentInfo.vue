@@ -4,6 +4,9 @@
     <el-row>
       <el-col span="12">
         <el-form ref="form" :model="form" label-width="40px" label-position="top" style="margin-left: 30px">
+          <el-form-item label="用户名" style="font-size: x-large">
+            <span style="font-size: x-large">{{form.user.username}}</span>
+          </el-form-item>
           <el-form-item label="姓名" style="font-size: x-large">
             <span style="font-size: x-large">{{form.student.name}}</span>
           </el-form-item>

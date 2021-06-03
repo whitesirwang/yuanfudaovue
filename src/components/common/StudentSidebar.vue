@@ -51,6 +51,11 @@
             title: '邮件',
             path: '/smail',
             icon: 'el-icon-message'
+          },
+          {
+            title: '教师排行榜',
+            path: '/shotteacher',
+            icon: 'el-icon-star-off'
           }
         ]
       }

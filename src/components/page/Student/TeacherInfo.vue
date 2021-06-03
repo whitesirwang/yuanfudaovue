@@ -4,22 +4,36 @@
       <h2 class="user-title">教师信息</h2>
       <el-row>
         <el-col span="12">
-          <el-form ref="form" :model="form" label-width="80px">
+          <el-form ref="form" :model="form" label-width="80px" label-position="top" style="margin-left: 30px">
             <el-form-item label="姓名">
-              {{form.name}}
+              <span style="font-size: x-large">{{form.name}}</span>
             </el-form-item>
             <el-form-item label="性别">
-              {{form.gender}}
+              <span style="font-size: x-large">{{form.gender}}</span>
             </el-form-item>
             <el-form-item label="年龄">
-              {{form.age}}
+              <span style="font-size: x-large">{{form.age}}</span>
             </el-form-item>
             <el-form-item label="自我介绍">
-              {{form.introduction}}
+              <span style="font-size: large">{{form.introduction}}</span>
             </el-form-item>
             <el-form-item label="好评率">
               <el-progress type="circle" :percentage="Math.floor(form.rate * 100)"></el-progress>
             </el-form-item>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="本月票数">
+                  <span>{{form.vote}}</span><br>
+                  <el-button type="primary" @click="vote">给他投票</el-button>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="本月当前排名">
+                  <span>{{form.rank}}</span><br>
+                  <router-link :to="'/shotteacher'">查看本月榜单</router-link>
+                </el-form-item>
+              </el-col>
+            </el-row>
             <el-form-item label="私信">
               <el-button type="primary" @click="dialogFormVisible = true">和他私聊</el-button>
               <el-dialog title="私信" :visible.sync="dialogFormVisible">
@@ -139,7 +153,6 @@ export default {
   name: "TeacherDetailInfo",
   data() {
     return {
-
       dialogFormVisible: false,
       sendMail: {
 
@@ -186,6 +199,25 @@ export default {
     this.getComment(1, 5, 1, this.$route.params.username);
   },
   methods: {
+    vote() {
+      this.$axios({
+        method: 'post',
+        url:this.HOME + '/vote/voteteacher/' + this.form.id,
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.$message.success("投票成功");
+          this.getUser();
+        } else {
+          this.$message.error(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
     sedMail() {
       this.$confirm('是否要发送？', '提示', {
         confirmButtonText: '确定',

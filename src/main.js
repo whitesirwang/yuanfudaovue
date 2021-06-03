@@ -9,6 +9,8 @@ import '@/assets/css/theme/459f75/index.css';
 import axios from 'axios';
 import 'bootstrap';
 import $ from 'jquery';
+// import echarts from 'echarts'
+// Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI, {size: 'medium'});
@@ -28,7 +30,11 @@ router.beforeEach((to, from, next) => {
   }
   const role = localStorage.getItem('username');
   if (!role && to.path !== '/login') {
-    next('/login');
+    if (to.path === '/studentRegist') {
+      next();
+    } else {
+      next('/login');
+    }
   } else if (to.meta.permission) {
     // 如果是管理员权限则可进入，这里只是简单的模拟管理员权限而已
     role === 'admin' ? next() : next('/error');

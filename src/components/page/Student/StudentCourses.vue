@@ -18,7 +18,7 @@
     </div>
     <div>
       <el-row>
-        <el-col :span="8" v-for="(o, index) in courses" :key="o" >
+        <el-col :span="7" v-for="(o, index) in courses" :key="o" style="margin-right: 50px;margin-bottom: 20px">
           <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div slot="header" class="clearfix">
               <span>{{o.name}}</span>

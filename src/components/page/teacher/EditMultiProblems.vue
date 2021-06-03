@@ -33,6 +33,7 @@
         </el-form>
         <el-button type="primary" @click="deleteProblem(o)">删除此题</el-button>
         <el-button type="primary" @click="updateProblem(o)">保存此题编辑</el-button>
+        <el-button type="primary" @click="seeTongji(o)">查看答题统计</el-button>
       </el-card>
     </el-card>
   </div>
@@ -47,6 +48,9 @@ export default {
     }
   },
   methods: {
+    seeTongji(o) {
+      this.$router.push("/ttongji/" + o.id);
+    },
     updateProblem(o) {
       var pdata = o;
       pdata.ans = pdata.ans.join('');

@@ -1,61 +1,67 @@
 <template>
   <div>
-    <el-card style="margin-bottom: 20px">
-      <h2 class="user-title">课程信息</h2>
-      <el-form ref="form" :model="form" label-width="80px" label-position="top">
-        <el-form-item label="课程名">
-          <el-input v-model="form.course.name"></el-input>
-        </el-form-item>
-        <el-form-item label="课程类型">
-          <el-select v-model="form.course.type" placeholder="小学">
-            <el-option label="小学" value="小学"></el-option>
-            <el-option label="初中" value="初中"></el-option>
-            <el-option label="高中" value="高中"></el-option>
-            <el-option label="大学" value="大学"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="课程简介">
-          <el-input type="textarea" v-model="form.course.introduction" :rows="6"></el-input>
-        </el-form-item>
-        <el-form-item label="讲课老师">
-          {{form.teacher.name}}
-        </el-form-item>
-        <el-form-item label="选课人数">
-          {{form.course.cnt}}
-        </el-form-item>
-        <el-form-item label="好评率">
-          <el-progress type="circle" :percentage="Math.floor(form.course.rate * 100)"></el-progress>
-        </el-form-item>
-        <el-button type="primary" @click="updateCourse">更改信息</el-button>
-        <el-button type="primary" @click="addCourseDetail">添加课时</el-button>
-      </el-form>
-    </el-card>
-    <el-card>
-      <el-table
-        :data="courseDetail"
-        border
-        style="width: 100%">
-        <el-table-column
-          type="index"
-          :index="indexMethod">
-        </el-table-column>
-        <el-table-column
-          prop="title"
-          label="课时名">
-        </el-table-column>
-        <el-table-column
-          label="更新时间"
-          prop="date">
-        </el-table-column>
-        <el-table-column
-          label="操作">
-          <template slot-scope="scope">
-            <el-button @click="editCourseDetail(scope.row)" type="text" size="medium">编辑课时</el-button>
-            <el-button @click="deleteCourseDetail(scope.row)" type="text" size="medium">删除课时</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
+    <el-row>
+      <el-col :span="10">
+        <el-card style="margin-bottom: 20px">
+          <h2 class="user-title">课程信息</h2>
+          <el-form ref="form" :model="form" label-width="80px" label-position="top">
+            <el-form-item label="课程名">
+              <el-input v-model="form.course.name"></el-input>
+            </el-form-item>
+            <el-form-item label="课程类型">
+              <el-select v-model="form.course.type" placeholder="小学">
+                <el-option label="小学" value="小学"></el-option>
+                <el-option label="初中" value="初中"></el-option>
+                <el-option label="高中" value="高中"></el-option>
+                <el-option label="大学" value="大学"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="课程简介">
+              <el-input type="textarea" v-model="form.course.introduction" :rows="6"></el-input>
+            </el-form-item>
+            <el-form-item label="讲课老师">
+              {{form.teacher.name}}
+            </el-form-item>
+            <el-form-item label="选课人数">
+              {{form.course.cnt}}
+            </el-form-item>
+            <el-form-item label="好评率">
+              <el-progress type="circle" :percentage="Math.floor(form.course.rate * 100)"></el-progress>
+            </el-form-item>
+            <el-button type="primary" @click="updateCourse">更改信息</el-button>
+            <el-button type="primary" @click="addCourseDetail">添加课时</el-button>
+          </el-form>
+        </el-card>
+      </el-col>
+      <el-col :span="13" style="margin-left: 20px;">
+        <el-card style="height: 1020px">
+          <h2 class="user-title">课时</h2>
+          <el-table
+            :data="courseDetail"
+            style="width: 100%">
+            <el-table-column
+              type="index"
+              :index="indexMethod">
+            </el-table-column>
+            <el-table-column
+              prop="title"
+              label="课时名">
+            </el-table-column>
+            <el-table-column
+              label="更新时间"
+              prop="date">
+            </el-table-column>
+            <el-table-column
+              label="操作">
+              <template slot-scope="scope">
+                <el-button @click="editCourseDetail(scope.row)" type="text" size="medium">编辑课时</el-button>
+                <el-button @click="deleteCourseDetail(scope.row)" type="text" size="medium">删除课时</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 

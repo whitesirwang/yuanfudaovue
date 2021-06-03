@@ -4,32 +4,32 @@
       <h2 class="user-title">课程信息</h2>
       <el-row>
         <el-col span="12">
-          <el-form ref="form" :model="form" label-width="80px">
+          <el-form ref="form" :model="form" label-width="80px" label-position="top" style="margin-left: 30px">
             <el-form-item label="课程名">
-              {{form.course.name}}
+              <span style="font-size: x-large">{{form.course.name}}</span>
             </el-form-item>
-            <el-form-item label="课程名">
-              {{form.course.type}}
+            <el-form-item label="课程类型">
+              <span style="font-size: x-large">{{form.course.type}}</span>
             </el-form-item>
             <el-form-item label="课程简介">
-              {{form.course.introduction}}
+              <span style="font-size: large">{{form.course.introduction}}</span>
             </el-form-item>
             <el-form-item label="讲课老师">
-              {{form.teacher.name}}
+              <span style="font-size: x-large">{{form.teacher.name}}</span><br>
+              <router-link :to="'/teacherDetailInfo/' + form.user.username">查看老师信息</router-link>
+            </el-form-item>
+          </el-form>
+        </el-col>
+        <el-col span="12">
+          <el-form ref="form" :model="form" label-width="80px" label-position="left" >
+            <el-form-item label="好评率">
+              <el-progress width="300" type="circle" :percentage="Math.floor(form.course.rate * 100)"></el-progress>
             </el-form-item>
             <el-form-item label="选课人数">
               {{form.course.cnt}}
             </el-form-item>
             <el-button type="primary" @click="selectCourse">我要选此课程</el-button>
           </el-form>
-        </el-col>
-        <el-col span="12">
-          <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="好评率">
-              <el-progress width="300" type="circle" :percentage="Math.floor(form.course.rate * 100)"></el-progress>
-            </el-form-item>
-          </el-form>
-
         </el-col>
       </el-row>
 
@@ -233,6 +233,7 @@ export default {
           this.form.course = response.data.result.ans.course;
           this.form.course.cnt = response.data.result.ans.cnt;
           this.courseDetail = response.data.result.ans.courseDetail;
+          this.form.user = response.data.result.ans.user;
         } else {
           alert(response.data.message);
         }

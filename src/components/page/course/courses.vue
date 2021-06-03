@@ -11,17 +11,17 @@
         @current-change="handleCurrentChange"
         :current-page.sync="comp.current"
         layout="total, prev, pager, next"
-        :page-size="5"
+        :page-size="6"
         :total="comp.total"
         style="margin-bottom: 0">
       </el-pagination>
       <el-input placeholder="搜索课程名称" v-model="search" style="width: 30%">
-        <el-button slot="append" icon="el-icon-search" @click="getCourses(1,5, search, activeName)"></el-button>
+        <el-button slot="append" icon="el-icon-search" @click="getCourses(1,6, search, activeName)"></el-button>
       </el-input>
     </div>
     <div>
       <el-row>
-        <el-col :span="8" v-for="(o, index) in courses" :key="o" >
+        <el-col :span="7" v-for="(o, index) in courses" :key="o" style="margin-right: 50px;margin-bottom: 20px">
           <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div slot="header" class="clearfix">
               <span>{{o.name}}</span>
@@ -55,14 +55,14 @@ export default {
       search: '',
       comp: {
         current: 1,
-        size: 5,
+        size: 6,
         total: 0
       },
       courses: []
     }
   },
   created() {
-    this.getCourses(1, 5, '',this.activeName)
+    this.getCourses(1, 6, '',this.activeName)
   },
   methods: {
     getCourses(cur, size, coursename = '', type) {
@@ -92,10 +92,10 @@ export default {
       });
     },
     handleCurrentChange(val) {
-      this.getCourses(val, 5, this.search, this.activeName);
+      this.getCourses(val, 6, this.search, this.activeName);
     },
     handleClick(tab, event) {
-      this.getCourses(1, 5, '', tab.name);
+      this.getCourses(1, 6, '', tab.name);
     },
     seeCourseDetail(row) {
       this.$router.push("/scourse/"+row.id);

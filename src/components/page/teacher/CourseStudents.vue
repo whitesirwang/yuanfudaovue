@@ -150,7 +150,7 @@ export default {
     $route(to, from) {
       var pat = /^\/tcoursestudents\/.*$/;
       if (pat.test(to.path)) {
-        this.getCourses(1, 5, this.tab.type);
+        this.getStudents(1, 5);
       }
     }
   }

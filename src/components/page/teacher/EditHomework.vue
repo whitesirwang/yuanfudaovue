@@ -145,7 +145,7 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button @click="seeTypeDetail(scope.row)" type="text" size="medium">编辑题目</el-button>
+            <el-button @click="seeTypeDetail(scope.row)" type="text" size="medium">查看题目</el-button>
           </template>
         </el-table-column>
       </el-table>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card>
-      <h2 class="user-title">选课学生</h2>
+      <h2 class="user-title">学生作业情况</h2>
       <el-table
         :data="homeworktype"
         border
