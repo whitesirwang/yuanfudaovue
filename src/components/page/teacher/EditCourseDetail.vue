@@ -23,6 +23,7 @@
             :action="vupload.url"
             :file-list="vupload.fileList"
             :on-success="handlevSuccess"
+            :before-upload="beforeVedioUpload"
             :limit="1"
             :show-file-list="true">
             <el-button size="small" type="primary">上传视频</el-button>
@@ -54,6 +55,7 @@
             :action="kejianupload.url"
             :file-list="kejianupload.fileList"
             :on-success="handleKejianSuccess"
+            :before-upload="beforeKejianUpload"
             :limit="5"
             :show-file-list="true">
             <el-button size="small" type="primary">上传课件</el-button>
@@ -377,6 +379,24 @@ export default {
       } else {
         this.$message.error(response.data.message);
       }
+    },
+    beforeVedioUpload(file) {
+      const isJPG = file.type === 'video/mp4';
+      const isLt2M = file.size / 1024 / 1024 < 100;
+      if (!isJPG) {
+        this.$message.error('上传文件只能是 MP4 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传视频大小不能超过 100MB!');
+      }
+      return isJPG && isLt2M;
+    },
+    beforeKejianUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 100;
+      if (!isLt2M) {
+        this.$message.error('上传文件大小不能超过 100MB!');
+      }
+      return isLt2M;
     },
     updatevedio() {
       this.$axios({

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-card style="width: 900px;margin-left: 300px;margin-top: 100px">
+  <div style="width: 50%; margin-left: 20%; margin-top: 100px">
+    <el-card>
       <h2 class="user-title">课程信息</h2>
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="课程名">
@@ -65,6 +65,7 @@ export default {
             type: 'success'
           });
           this.clearall();
+          //this.$router.back(-1);
         } else {
           this.$message.error(response.data.message);
         }

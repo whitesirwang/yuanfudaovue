@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-card style="width: 700px;margin-left: 500px;margin-top: 100px">
+    <el-card style="width: 40%;margin-left: 30%;margin-top: 100px">
       <h2 class='user-title'>学生注册</h2>
-      <el-form ref="form" :model="form" label-width="80px" :rules="rules">
-        <el-form-item label="用户名" prop="username" required style="width: 500px">
+      <el-form ref="form" :model="form"  :rules="rules">
+        <el-form-item label="用户名" prop="username" required>
           <el-input v-model="form.username" ></el-input>
         </el-form-item>
-        <el-form-item label="姓名" prop="name" required style="width: 500px">
+        <el-form-item label="姓名" prop="name" required>
           <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="性别" prop="gender" required>
@@ -15,7 +15,7 @@
             <el-option label="女" value="女"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="QQ邮箱" prop="email" style="width: 500px">
+        <el-form-item label="QQ邮箱" prop="email" required>
           <el-input v-model="form.email" show-word-limit maxlength="10"></el-input>@qq.com
         </el-form-item>
         <el-form-item label="类别" prop="type" required>
@@ -26,10 +26,10 @@
             <el-option label="大学" value="大学"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="密码" prop="password" required style="width: 500px">
+        <el-form-item label="密码" prop="password" required >
           <el-input type="password" v-model="form.password" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" prop="checkpassword" style="width: 500px">
+        <el-form-item label="确认密码" prop="checkpassword" >
           <el-input type="password" v-model="form.checkpassword" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>

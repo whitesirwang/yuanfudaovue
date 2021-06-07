@@ -132,7 +132,7 @@ export default {
             this.homework = [response.data.result.ans.homework];
           }
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -151,10 +151,10 @@ export default {
       }).then((response) =>{
         if (response.data.status === 200) {
           this.form = response.data.result.ans.courseDetail;
-          this.playerOptions.sources[0].src = "http://localhost:8004/vedios/" + response.data.result.ans.file.url;
+          this.playerOptions.sources[0].src = "http://121.4.21.154:8004/vedios/" + response.data.result.ans.file.url;
           this.vedio = response.data.result.ans.file;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -172,7 +172,7 @@ export default {
         if (response.data.status === 200) {
           this.kejian = response.data.result.ans;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)

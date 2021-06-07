@@ -68,7 +68,7 @@ export default {
         if (response.data.status === 200) {
           this.homeworktype = response.data.result.ans;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)

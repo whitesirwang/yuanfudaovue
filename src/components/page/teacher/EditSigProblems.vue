@@ -81,6 +81,7 @@ export default {
       }).then((response) =>{
         if (response.data.status === 200) {
           this.$message.success("删除成功");
+          this.getProblems();
         } else {
           alert(response.data.message);
         }

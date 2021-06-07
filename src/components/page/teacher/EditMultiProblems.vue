@@ -3,26 +3,26 @@
     <el-card>
       <h2 class="user-title">多选题</h2>
       <el-card v-for="(o, index) in problems" :key="index">
-        <el-form ref="o" label-width="80px" :model="o">
-          <el-form-item label="题目" required prop="content" label-width="60px">
+        <el-form ref="o" :model="o">
+          <el-form-item label="题目" required prop="content">
             <el-input type="textarea" v-model="o.content" ></el-input>
           </el-form-item>
-          <el-form-item label="选项A" required prop="a" label-width="60px">
+          <el-form-item label="选项A" required prop="a">
             <el-input v-model="o.a"></el-input>
           </el-form-item>
-          <el-form-item label="选项B" required prop="b" label-width="60px">
+          <el-form-item label="选项B" required prop="b">
             <el-input v-model="o.b"></el-input>
           </el-form-item>
-          <el-form-item label="选项C" required prop="c" label-width="60px">
+          <el-form-item label="选项C" required prop="c">
             <el-input v-model="o.c"></el-input>
           </el-form-item>
-          <el-form-item label="选项D" required prop="d" label-width="60px">
+          <el-form-item label="选项D" required prop="d">
             <el-input v-model="o.d"></el-input>
           </el-form-item>
-          <el-form-item label="分值" required prop="score" label-width="60px">
+          <el-form-item label="分值" required prop="score" >
             <el-input-number v-model="o.score" :min="1" :max="10"></el-input-number>
           </el-form-item>
-          <el-form-item label="答案" required prop="ans" label-width="60px">
+          <el-form-item label="答案" required prop="ans">
             <el-checkbox-group v-model="o.ans">
               <el-checkbox label="A"></el-checkbox>
               <el-checkbox label="B"></el-checkbox>
@@ -85,7 +85,7 @@ export default {
       }).then((response) =>{
         if (response.data.status === 200) {
           this.$message.success("删除成功");
-          //this.getProblems();
+          this.getProblems();
         } else {
           alert(response.data.message);
         }

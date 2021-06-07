@@ -3,14 +3,14 @@
     <el-card>
       <h2 class="user-title">判断题</h2>
       <el-card v-for="(o, index) in problems" :key="index">
-        <el-form ref="o" label-width="80px" :model="o">
-          <el-form-item label="题目" prop="content" label-width="60px" required>
+        <el-form ref="o" :model="o">
+          <el-form-item label="题目" prop="content" required>
             <el-input type="textarea" v-model="o.content"></el-input>
           </el-form-item>
-          <el-form-item label="分值"  prop="score" label-width="60px" required>
+          <el-form-item label="分值"  prop="score" required>
             <el-input-number v-model="o.score" :min="1" :max="10"></el-input-number>
           </el-form-item>
-          <el-form-item label="答案"  prop="ans" label-width="60px" required>
+          <el-form-item label="答案"  prop="ans"  required>
             <el-radio-group v-model="o.ans">
               <el-radio label="T"></el-radio>
               <el-radio label="F"></el-radio>
@@ -67,6 +67,7 @@ export default {
       }).then((response) =>{
         if (response.data.status === 200) {
           this.$message.success("删除成功");
+          this.getProblems();
         } else {
           alert(response.data.message);
         }

@@ -57,7 +57,7 @@ export default {
         if (response.data.status === 200) {
           this.$message.success("提交成功");
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -79,7 +79,7 @@ export default {
         if (response.data.status === 200) {
           this.problems = response.data.result.ans;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)

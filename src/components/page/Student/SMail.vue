@@ -196,7 +196,7 @@ export default {
           this.mymail = response.data.result.ans.records;
           this.comp.total = response.data.result.ans.total;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -220,7 +220,7 @@ export default {
           this.mail = response.data.result.ans.records;
           this.comp.total = response.data.result.ans.total;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)

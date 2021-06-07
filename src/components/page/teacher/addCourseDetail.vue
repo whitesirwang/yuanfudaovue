@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-card style="width: 900px;margin-left: 300px;margin-top: 100px">
+  <div style="width: 50%; margin-left: 20%; margin-top: 100px">
+    <el-card>
       <h2 class="user-title">课时名称</h2>
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="标题名称">

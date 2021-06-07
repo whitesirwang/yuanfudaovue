@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="10">
-        <el-card style="margin-bottom: 20px">
+        <el-card>
           <h2 class="user-title">课程信息</h2>
           <el-form ref="form" :model="form" label-width="80px" label-position="top">
             <el-form-item label="课程名">
@@ -33,8 +33,8 @@
           </el-form>
         </el-card>
       </el-col>
-      <el-col :span="13" style="margin-left: 20px;">
-        <el-card style="height: 1020px">
+      <el-col :span="13" :offset="1">
+        <el-card style="height: 1030px">
           <h2 class="user-title">课时</h2>
           <el-table
             :data="courseDetail"

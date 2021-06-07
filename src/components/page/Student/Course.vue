@@ -210,7 +210,7 @@ export default {
           this.comp2.size = response.data.result.ans.size;
           this.comp2.total = response.data.result.ans.total;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -235,7 +235,7 @@ export default {
           this.courseDetail = response.data.result.ans.courseDetail;
           this.form.user = response.data.result.ans.user;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)

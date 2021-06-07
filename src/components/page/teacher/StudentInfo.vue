@@ -66,7 +66,7 @@ export default {
         if (response.data.status === 200) {
           this.form = response.data.result.ans;
           if (response.data.result.ans.avatorname !== null) {
-            this.img.url = 'http://localhost:8004/vedios/'+response.data.result.ans.avatorname;
+            this.img.url = 'http://121.4.21.154:8004/vedios/'+response.data.result.ans.avatorname;
           }else {
             this.img.url = 'static/error-page.png'
           }

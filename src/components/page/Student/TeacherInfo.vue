@@ -314,7 +314,7 @@ export default {
           this.comp2.size = response.data.result.ans.size;
           this.comp2.total = response.data.result.ans.total;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -338,12 +338,12 @@ export default {
         if (response.data.status === 200) {
           this.form = response.data.result;
           if (response.data.result.avatorname !== null) {
-            this.img.url = 'http://localhost:8004/vedios/'+response.data.result.avatorname;
+            this.img.url = 'http://121.4.21.154:8004/vedios/'+response.data.result.avatorname;
           }else {
             this.img.url = 'static/error-page.png'
           }
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)
@@ -373,7 +373,7 @@ export default {
           this.comp.size = response.data.result.ans.size;
           this.comp.total = response.data.result.ans.total;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)

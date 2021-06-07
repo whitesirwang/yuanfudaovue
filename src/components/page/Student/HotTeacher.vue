@@ -61,7 +61,7 @@ export default {
           console.log(response.data.result.ans);
           this.teachers = response.data.result.ans;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)

@@ -15,7 +15,7 @@
     </div>
     <div>
       <el-row>
-        <el-col :span="7" v-for="(o, index) in teachers" :key="o" style="margin-right: 50px;margin-bottom: 20px">
+        <el-col :span="7" v-for="(o, index) in teachers" :key="o" :offset="index % 3 > 0 ? 1 : 0" style="margin-bottom: 20px">
           <el-card :body-style="{ padding: '0px' }" shadow="hover">
             <div slot="header" class="clearfix">
               <span>{{o.name}}</span>
@@ -78,7 +78,7 @@ export default {
           this.comp.size = response.data.result.ans.size;
           this.comp.current = response.data.result.ans.current;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)

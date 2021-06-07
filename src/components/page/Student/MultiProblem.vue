@@ -62,7 +62,7 @@ export default {
           }
           this.problems = ret;
         } else {
-          alert(response.data.message);
+          this.$message.error(response.data.message);
         }
       }).catch((error) => {
         console.log(error)

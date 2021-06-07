@@ -149,6 +149,16 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-upload
+        class="upload-demo"
+        :action="upload.url"
+        :file-list="upload.fileList"
+        :on-success="handleSuccess"
+        :before-upload="beforeExcelUpload"
+        :limit="5"
+        :show-file-list="true">
+        <el-button size="small" type="primary">解析excel文件</el-button>
+      </el-upload>
     </el-card>
   </div>
 </template>
@@ -158,6 +168,10 @@ export default {
   name: "EditHomework",
   data() {
     return {
+      upload: {
+        url: this.HOME + "/upload",
+        fileList: []
+      },
       homework: {
 
       },
@@ -200,6 +214,49 @@ export default {
     }
   },
   methods: {
+    beforeExcelUpload(file) {
+      console.log(file);
+      var FileExt = file.name.replace(/.+\./, "");
+      const isJPG = 'xlsx' === FileExt.toLowerCase();
+      const isLt2M = file.size / 1024 / 1024 < 100;
+      if (!isJPG) {
+        this.$message.error('上传文件只能是 xlsx 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传视频大小不能超过 100MB!');
+      }
+      return isJPG && isLt2M;
+    },
+    handleSuccess(response, file, fileList) {
+      if (response.status === 200) {
+        this.addExcel(response.result.name);
+      } else {
+        this.$message.error(response.data.message);
+      }
+    },
+    addExcel(filename) {
+      this.$axios({
+        method: 'post',
+        url:this.HOME + '/homeworkdetail/addhomeworkdetailfromexcel',
+        data: JSON.stringify({
+          hid: this.$route.params.id,
+          filename: filename
+        }),
+        headers: {
+          'accessToken': localStorage.getItem("accessToken"),
+          'Content-Type': 'application/json'
+        }
+      }).then((response) =>{
+        if (response.data.status === 200) {
+          this.$message.success("解析成功");
+          this.getHomeworkType();
+        } else {
+          alert(response.data.message);
+        }
+      }).catch((error) => {
+        console.log(error)
+      });
+    },
     addHomework() {
       this.$axios({
         method: 'put',
@@ -257,8 +314,8 @@ export default {
             if (response.data.status === 200) {
               this.$message.success("添加成功");
               this.sigproblem = {};
-              this.dialogFormVisible1 = false;
-              this.dialogFormVisible2 = false;
+              this.dialogFormVisible3 = false;
+              //this.dialogFormVisible2 = false;
               this.getHomeworkType();
             } else {
               alert(response.data.message);
@@ -339,7 +396,7 @@ export default {
               this.$message.success("添加成功");
               this.sigproblem = {};
               this.dialogFormVisible1 = false;
-              this.dialogFormVisible2 = false;
+              //this.dialogFormVisible2 = false;
               this.getHomeworkType();
             } else {
               alert(response.data.message);

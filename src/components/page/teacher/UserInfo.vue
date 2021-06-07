@@ -28,6 +28,7 @@
               :action="upload.url"
               :file-list="upload.fileList"
               :on-success="handleSuccess"
+              :before-upload="beforeAvatarUpload"
               :limit="1">
               <el-button size="small" type="primary">上传文件</el-button>
               <div slot="tip" class="el-upload__tip">(提示）只能上传jpg/png文件</div>
@@ -87,7 +88,7 @@ export default {
         if (response.data.status === 200) {
           this.form = response.data.result;
           if (response.data.result.avatorname !== null) {
-            this.img.url = 'http://localhost:8004/vedios/'+response.data.result.avatorname;
+            this.img.url = 'http://121.4.21.154:8004/vedios/'+response.data.result.avatorname;
           }else {
             this.img.url = 'static/error-page.png'
           }
@@ -100,12 +101,23 @@ export default {
     },
     handleSuccess(response, file, fileList) {
         if (response.status === 200) {
-          this.img.url = 'http://localhost:8004/vedios/' + response.result.name;
+          this.img.url = 'http://121.4.21.154:8004/vedios/' + response.result.name;
           this.form.avatorname = response.result.name;
           this.updateUser();
         } else {
           this.$message.error(response.data.message);
         }
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
     },
     updateUser() {
       this.$axios({
